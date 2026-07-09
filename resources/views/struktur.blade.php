@@ -1,4 +1,7 @@
-<x-public-layout>
+@extends('public')
+
+@section('content')
+
     <div class="max-w-7xl mx-auto px-4 py-12">
         <div class="text-center mb-12">
             <h1 class="text-2xl sm:text-3xl font-bold text-pmkBlue">Struktur Organisasi Pengurus</h1>
@@ -35,4 +38,4 @@
             @endfor
         </div>
     </div>
-</x-public-layout>
+@endsection

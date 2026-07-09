@@ -1,4 +1,6 @@
-<x-app-layout>
+@extends('public')
+
+@section('content')
     <div class="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 bg-pmkBlue text-white p-6 rounded-2xl shadow-md">
             <div>
@@ -55,4 +57,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection

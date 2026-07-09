@@ -1,4 +1,5 @@
-<x-public-layout>
+@extends('public')
+@section('content')
     <div class="bg-gradient-to-r from-pmkBlue to-blue-900 text-white py-16 px-4 text-center">
         <div class="max-w-3xl mx-auto">
             <h1 class="text-2xl sm:text-4xl font-extrabold mb-4 tracking-wide">Selamat Datang di Komisi 1 Pembinaan</h1>
@@ -52,4 +53,4 @@
             </div>
         </div>
     </div>
-</x-public-layout>
+@endsection

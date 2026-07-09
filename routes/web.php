@@ -14,16 +14,15 @@ Route::get('/beranda', function () {
 
 Route::get('/profil', function () {
     return view('profil');
-});
+})->name('profil');
 
 Route::get('/struktur', function () {
     return view('struktur');
-});
+})->name('struktur');
 
 Route::get('/renungan', function () {
     return view('renungan');
-});
-
+})->name('renungan');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     

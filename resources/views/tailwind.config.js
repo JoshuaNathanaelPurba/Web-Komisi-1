@@ -1,10 +1,25 @@
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        pmkBlue: '#2D43A4',
-        pmkOrange: '#F28E2B',
-      },
+import defaultTheme from 'tailwindcss/defaultTheme';
+import forms from '@tailwindcss/forms';
+
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: [
+        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        './storage/framework/views/*.php',
+        './resources/views/**/*.blade.php',
+    ],
+
+    theme: {
+        extend: {
+            fontFamily: {
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                pmkBlue: '#3B4197', 
+                pmkOrange: '#F28E2B',
+            },
+        },
     },
-  },
-}
+
+    plugins: [forms],
+};

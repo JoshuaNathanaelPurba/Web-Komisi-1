@@ -1,4 +1,6 @@
-<x-public-layout>
+@extends('public')
+
+@section('content')
     <div class="max-w-7xl mx-auto px-4 py-12">
         <div class="text-center max-w-xl mx-auto mb-10">
             <h1 class="text-2xl sm:text-3xl font-extrabold text-pmkBlue">Renungan Harian</h1>
@@ -36,4 +38,4 @@
             </div>
         </div>
     </div>
-</x-public-layout>
+@endsection
