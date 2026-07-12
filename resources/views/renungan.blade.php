@@ -1,10 +1,9 @@
 @extends('public')
 
 @section('content')
-    <div class="relative w-full overflow-hidden shadow-sm border-b border-gray-200">
-        <img src="https://marketplace.canva.com/YPVy4/MAGugoYPVy4/1/tl/canva-open-bible-on-wooden-surface-MAGugoYPVy4.jpg" 
-             alt="Background Renungan" 
-             class="w-full h-auto object-contain block">
+    <div class="relative w-full h-[60vh] md:h-[80vh] flex items-center justify-center overflow-hidden">
+
+        <img src="https://marketplace.canva.com/YPVy4/MAGugoYPVy4/1/tl/canva-open-bible-on-wooden-surface-MAGugoYPVy4.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Foto Alkitab">
 
         <div class="absolute inset-0 bg-slate-950/50 backdrop-blur-[0.5px]"></div>
         
@@ -92,7 +91,7 @@
                     </div>
                 </div>
                <div class="p-5 pt-0 border-t border-gray-50 mt-4 flex justify-end">
-                    <a href="{{ route('renungan.detail') }}" class="text-xs font-bold text-pmkBlue hover:text-pmkOrange transition flex items-center gap-1">
+                    <a href="{{ route('detail-renungan') }}" class="text-xs font-bold text-pmkBlue hover:text-pmkOrange transition flex items-center gap-1">
                         Lihat Detail <span class="text-sm">&rarr;</span>
                     </a>
                 </div>
@@ -121,7 +120,7 @@
                 </div>
 
                 <div class="p-5 pt-0 border-t border-gray-50 mt-4 flex justify-end">
-                    <a href="{{ route('renungan.detail') }}" class="text-xs font-bold text-pmkBlue hover:text-pmkOrange transition flex items-center gap-1">
+                    <a href="{{ route('detail-renungan') }}" class="text-xs font-bold text-pmkBlue hover:text-pmkOrange transition flex items-center gap-1">
                         Lihat Detail <span class="text-sm">&rarr;</span>
                     </a>
                 </div>

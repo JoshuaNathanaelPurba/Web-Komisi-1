@@ -24,14 +24,28 @@ Route::get('/renungan', function () {
     return view('renungan');
 })->name('renungan');
 
-Route::view('/renungan/detail', 'detail-renungan')->name('renungan.detail');
+Route::get('/detail-renungan', function () {
+    return view('detail-renungan');
+})->name('detail-renungan');
+
+Route::get('/galeri', function () {
+    return view('galeri');
+})->name('galeri');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     
-    Route::get('/admin/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+Route::get('/admin/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
     
 });
+
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
+
+Route::get('/register', function () {
+    return view('register');
+})->name('register');
 
 require __DIR__.'/auth.php';

@@ -1,33 +1,82 @@
 @extends('public')
 
 @section('content')
-    <div class="max-w-4xl mx-auto px-4 py-12">
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-10 space-y-8">
-            <div class="text-center border-b pb-6">
-                <h1 class="text-2xl sm:text-3xl font-extrabold text-pmkBlue">Profil Komisi 1 Pembinaan</h1>
-                <p class="text-sm text-gray-500 mt-1">PMK Daniel Periode Kepengurusan</p>
-            </div>
+<div class="w-full min-h-screen bg-white font-sans">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
-                <div class="bg-blue-50/50 p-6 rounded-xl border border-blue-100">
-                    <h3 class="font-bold text-lg text-pmkBlue mb-3 flex items-center gap-2">🎯 Visi</h3>
-                    <p class="text-sm text-gray-700 leading-relaxed">Menjadi pilar pembinaan rohani yang berakar kuat pada firman Tuhan, guna melahirkan pelayan-pelayan yang setia, rendah hati, dan visioner.</p>
-                </div>
-                <div class="bg-orange-50/50 p-6 rounded-xl border border-orange-100">
-                    <h3 class="font-bold text-lg text-pmkOrange mb-3 flex items-center gap-2">🚀 Misi</h3>
-                    <ul class="text-sm text-gray-700 space-y-2 list-disc list-inside leading-relaxed">
-                        <li>Mengadakan program pemahaman Alkitab yang teratur.</li>
-                        <li>Memfasilitasi pelatihan kepemimpinan rohani mahasiswa.</li>
-                        <li>Membina persekutuan yang intim dan akuntabel antarkomisi.</li>
-                    </ul>
-                </div>
-            </div>
+    <div class="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-start overflow-hidden">
+        
+        <img src="{{ asset('images/foto-komisi.jpg') }}" class="absolute inset-0 w-full h-full object-cover" alt="Foto Komisi 1 Pembinaan">
 
-            <div class="bg-pmkOrange text-white p-6 rounded-xl text-center shadow-md relative overflow-hidden">
-                <span class="absolute text-8xl -bottom-6 -right-4 font-serif opacity-10">“</span>
-                <p class="text-sm sm:text-base italic font-medium mb-2">"Sebab itu jadilah kuat oleh kasih karunia dalam Kristus Yesus. Apa yang telah engkau dengar dari padaku... percayakanlah itu kepada orang-orang yang dapat dipercayai, yang juga cakap untuk mengajar orang lain."</p>
-                <span class="text-xs font-bold block tracking-wider uppercase">— 2 Timotius 2:1-2</span>
-            </div>
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-950/80 via-blue-900/60 to-transparent"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 text-white w-full">
+            <span class="text-sm md:text-base font-semibold tracking-wider text-yellow-400 uppercase">TENTANG KAMI</span>
+            <h1 class="text-3xl md:text-5xl font-bold mt-2 tracking-tight">Komisi 1 Pembinaan</h1>
+            <p class="text-xl md:text-2xl font-medium mt-1 text-gray-200">PMK Daniel</p>
         </div>
     </div>
+
+    <div class="bg-white">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16 space-y-16">
+
+            <section class="space-y-4 max-w-3xl"> 
+                <h2 class="text-2xl font-bold text-gray-800">Penjelasan Komisi 1</h2>
+                <div class="text-gray-600 leading-relaxed space-y-4 text-justify">
+                    <p>
+                        Komisi 1 Pembinaan PMK Daniel berfokus pada pengembangan kerohanian, multiplikasi murid, serta pembentukan karakter seluruh anggota. Melalui berbagai program terstruktur, komisi ini berkomitmen untuk menciptakan wadah bertumbuh yang sehat secara teologis dan aplikatif dalam kehidupan kampus.
+                    </p>
+                    <p>
+                        Kami percaya bahwa pembinaan yang berakar pada Firman Tuhan akan menghasilkan pemimpin-pemimpin masa depan yang memiliki integritas tinggi dan berdampak bagi lingkungan sekitar.
+                    </p>
+                </div>
+            </section>
+
+            <section class="space-y-8">
+                <h2 class="text-2xl font-bold text-gray-800">Program Kerja Komisi 1</h2>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                    <div class="bg-white overflow-hidden group">
+                        <div class="w-full h-48 overflow-hidden rounded-xl bg-gray-200">
+                            <img src="{{ asset('images/proker-1.jpg') }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Gambar Program Kerja 1">
+                        </div>
+
+                        <div class="pt-4">
+                            <h3 class="text-lg font-bold text-gray-800 mb-2">Nama Program Kerja 1</h3>
+                            <p class="text-sm text-gray-600 leading-relaxed text-justify">
+                                Ini adalah penjelasan mengenai program kerja pertama. Menjelaskan tentang tujuan kegiatan, target pelaksanaan, serta output rohani yang ingin dicapai melalui program kerja ini.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white overflow-hidden group">
+                        <div class="w-full h-48 overflow-hidden rounded-xl bg-gray-200">
+                            <img src="{{ asset('images/proker-2.jpg') }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Gambar Program Kerja 2">
+                        </div>
+                        <div class="pt-4">
+                            <h3 class="text-lg font-bold text-gray-800 mb-2">Nama Program Kerja 2</h3>
+                            <p class="text-sm text-gray-600 leading-relaxed text-justify">
+                                Ini adalah penjelasan mengenai program kerja kedua. Menjelaskan secara ringkas esensi dari kegiatan pembinaan atau persekutuan yang dilaksanakan oleh Komisi 1.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white overflow-hidden group">
+                        <div class="w-full h-48 overflow-hidden rounded-xl bg-gray-200">
+                            <img src="{{ asset('images/proker-3.jpg') }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Gambar Program Kerja 3">
+                        </div>
+                        <div class="pt-4">
+                            <h3 class="text-lg font-bold text-gray-800 mb-2">Nama Program Kerja 3</h3>
+                            <p class="text-sm text-gray-600 leading-relaxed text-justify">
+                                Ini adalah penjelasan mengenai program kerja ketiga. Berisi detail aktivitas berkala yang menunjang pertumbuhan iman spiritual seluruh anggota PMK Daniel.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>
 @endsection
