@@ -23,7 +23,6 @@
     <div class="w-full min-h-screen grid grid-cols-1 md:grid-cols-2 shadow-2xl overflow-hidden">
         
         <div class="bg-[#3B4197] text-white flex flex-col items-center justify-center p-8 md:p-12 space-y-4">
-            <!-- Logo PMK Daniel -->
             <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-[#3B4197] font-bold text-sm shadow-lg">
                 LOGO
             </div>
@@ -38,21 +37,35 @@
                 
                 <h1 class="text-3xl font-bold text-center mb-8 tracking-wide">LOGIN</h1>
 
+                @if (session('status'))
+                    <div class="mb-4 font-medium text-sm text-green-200 text-center bg-white/10 p-2 rounded-xl">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
                 <form method="POST" action="{{ route('login') }}" class="space-y-5">
                     @csrf
 
                     <div class="flex flex-col space-y-1">
                         <label for="email" class="text-sm font-semibold text-white">Email</label>
-                        <input type="email" id="email" name="email" required 
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
                             class="w-full px-4 py-3 rounded-xl bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B4197] transition" 
                             placeholder="Masukkan email anda">
+                        
+                        @error('email')
+                            <span class="text-xs text-red-200 font-semibold mt-1 block">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="flex flex-col space-y-1">
                         <label for="password" class="text-sm font-semibold text-white">Password</label>
-                        <input type="password" id="password" name="password" required 
+                        <input type="password" id="password" name="password" required autocomplete="current-password"
                             class="w-full px-4 py-3 rounded-xl bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B4197] transition" 
                             placeholder="Masukkan password anda">
+                        
+                        @error('password')
+                            <span class="text-xs text-red-200 font-semibold mt-1 block">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="text-sm text-right">

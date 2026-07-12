@@ -48,9 +48,20 @@
                 </div>
 
                 <div class="hidden md:block">
-                    <a href="{{ route('login') }}" class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-2 rounded-full text-xs sm:text-sm shadow transition duration-300 transform hover:scale-105">
-                        MASUK
-                    </a>
+                    @auth
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold px-6 py-2 rounded-full text-xs sm:text-sm shadow transition duration-300 transform hover:scale-105">
+                                KELUAR
+                            </button>
+                        </form>
+                    @endauth
+
+                    @guest
+                        <a href="{{ route('login') }}" class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-2 rounded-full text-xs sm:text-sm shadow transition duration-300 transform hover:scale-105">
+                            MASUK
+                        </a>
+                    @endguest
                 </div>
 
                 <div class="md:hidden flex items-center z-50">
@@ -74,9 +85,20 @@
             </div>
 
             <div class="w-full mt-12">
-                <a href="{{ route('login') }}" class="block text-center bg-orange-500 hover:bg-orange-600 py-4 rounded-full font-bold text-base shadow-lg transition">
-                    MASUK
-                </a>
+                @auth
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full text-center bg-red-500 hover:bg-red-600 py-4 rounded-full font-bold text-base shadow-lg transition">
+                            KELUAR
+                        </button>
+                    </form>
+                @endauth
+
+                @guest
+                    <a href="{{ route('login') }}" class="block text-center bg-orange-500 hover:bg-orange-600 py-4 rounded-full font-bold text-base shadow-lg transition">
+                        MASUK
+                    </a>
+                @endguest
             </div>
             
         </div>
