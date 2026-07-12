@@ -1,56 +1,98 @@
 @extends('public')
+
 @section('content')
-    <div class="bg-gradient-to-r from-pmkBlue to-blue-900 text-white py-16 px-4 text-center">
-        <div class="max-w-3xl mx-auto">
-            <h1 class="text-2xl sm:text-4xl font-extrabold mb-4 tracking-wide">Selamat Datang di Komisi 1 Pembinaan</h1>
-            <p class="text-sm sm:text-lg text-gray-200">Membangun generasi muda Kristen yang berintegritas, berlandaskan Firman, dan siap melayani.</p>
+    <div class="bg-white text-slate-950 py-20 px-4 text-center border-b border-gray-100 shadow-sm">
+        <div class="max-w-3xl mx-auto flex flex-col items-center justify-center">
+            <h1 class="text-3xl sm:text-5xl font-extrabold mb-3 tracking-wide text-slate-900">Komisi 1 Pembinaan</h1>
+            <p class="text-lg sm:text-2xl text-slate-600 font-light">PMK Daniel</p>
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-10 border border-gray-100 flex flex-col md:flex-row items-center gap-8">
-            <div class="w-full md:w-1/3 text-center">
-                <div class="w-40 h-40 bg-gray-200 rounded-2xl mx-auto flex items-center justify-center text-gray-400 font-bold">Foto Ketua</div>
-            </div>
-            <div class="w-full md:w-2/3">
-                <h2 class="text-xl sm:text-2xl font-bold text-pmkBlue mb-3">Sambutan Ketua Komisi 1</h2>
-                <p class="text-gray-600 text-sm sm:text-base leading-relaxed mb-4">Shalom saudara-saudari terkasih! Puji Tuhan atas kehadiran wadah ini. Melalui Komisi 1 Pembinaan, kami rindu setiap anggota PMK Daniel dapat berakar kuat di dalam Kristus, bertumbuh secara rohani, dan dipersiapkan menjadi saksi Kristus di lingkungan kampus dan masyarakat luas.</p>
-                <span class="font-bold text-gray-800 text-sm">— Ketua Komisi 1 Pembinaan</span>
-            </div>
-        </div>
-    </div>
+    <div class="bg-white max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20 text-left">
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h3 class="text-xl font-bold text-gray-800 mb-6 text-center md:text-left">Dokumentasi & Kegiatan Kami</h3>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <section class="max-w-4xl">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+                Komisi 1 Pembinaan
+            </h2>
+            <p class="text-gray-600 text-base sm:text-lg leading-relaxed">
+                [Penjelasan komisi 1 berada di sini. Bagian ini menjelaskan fokus utama komisi dalam melakukan pembinaan rohani, pengembangan karakter, serta program spiritualitas yang dirancang untuk mendukung seluruh fungsionaris maupun jemaat.]
+            </p>
+        </section>
 
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 group">
-                <div class="h-48 bg-pmkBlue/20 flex items-center justify-center text-pmkBlue font-bold text-xs">Foto Kegiatan Ibadah</div>
-                <div class="p-5">
-                    <h4 class="font-bold text-gray-900 group-hover:text-pmkBlue transition mb-2">Camp Pembinaan Iman</h4>
-                    <p class="text-xs text-gray-500 mb-2">Tanggal: 12-14 Maret</p>
-                    <p class="text-sm text-gray-600 line-clamp-2">Kebersamaan dan pembekalan materi firman Tuhan guna mempererat persekutuan.</p>
+        <section class="space-y-8">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
+                Sambutan Pimpinan
+            </h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col space-y-4">
+                    <div class="flex items-center gap-5">
+                        <div class="w-24 h-24 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center text-gray-400 text-xs font-bold text-center p-2 border border-gray-200">
+                            Foto Ketua
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">[Nama Ketua Komisi 1]</h3>
+                            <p class="text-sm font-semibold text-pmkBlue uppercase tracking-wider">Ketua Komisi 1</p>
+                            <p class="text-xs text-gray-400 font-medium">Periode 2026</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-gray-200">
+                        <p class="text-gray-600 italic text-sm sm:text-base leading-relaxed">
+                            "[Kata sambutan ketua komisi 1 diletakkan di bagian ini. Berisi pesan, visi pelayanan, serta kalimat hangat penyambutan.]"
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col space-y-4">
+                    <div class="flex items-center gap-5">
+                        <div class="w-24 h-24 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center text-gray-400 text-xs font-bold text-center p-2 border border-gray-200">
+                            Foto Wakil Ketua
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">[Nama Wakil Ketua Komisi 1]</h3>
+                            <p class="text-sm font-semibold text-pmkBlue uppercase tracking-wider">Wakil Ketua Komisi 1</p>
+                            <p class="text-xs text-gray-400 font-medium">Periode 2026</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-gray-200">
+                        <p class="text-gray-600 italic text-sm sm:text-base leading-relaxed">
+                            "[Kata sambutan wakil ketua komisi 1 diletakkan di bagian ini, mengikuti struktur yang sama dengan ketua untuk menjaga keselarasan tata letak halaman.]"
+                        </p>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 group">
-                <div class="h-48 bg-pmkBlue/20 flex items-center justify-center text-pmkBlue font-bold text-xs">Foto Kegiatan Diskusi</div>
-                <div class="p-5">
-                    <h4 class="font-bold text-gray-900 group-hover:text-pmkBlue transition mb-2">Pemahaman Alkitab (PA) Komisi</h4>
-                    <p class="text-xs text-gray-500 mb-2">Setiap Hari Jumat</p>
-                    <p class="text-sm text-gray-600 line-clamp-2">Menggali kebenaran Alkitab secara mendalam lewat diskusi interaktif kelompok kecil.</p>
+        <section class="space-y-6">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
+                Program Kerja
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 group">
+                    <div class="h-48 bg-gray-100 flex items-center justify-center text-gray-400 font-bold text-sm border-b border-gray-200">
+                        [Gambar Proker]
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-bold text-gray-900 group-hover:text-pmkBlue transition mb-2 text-lg">
+                            [Nama Proker]
+                        </h4>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            [Penjelasan mengenai program kerja. Berisi rincian agenda, esensi, dan tujuan utama diadakannya kegiatan pembinaan tersebut.]
+                        </p>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 group">
-                <div class="h-48 bg-pmkBlue/20 flex items-center justify-center text-pmkBlue font-bold text-xs">Foto Kegiatan Sosial</div>
-                <div class="p-5">
-                    <h4 class="font-bold text-gray-900 group-hover:text-pmkBlue transition mb-2">Aksi Kasih & Diakonia</h4>
-                    <p class="text-xs text-gray-500 mb-2">Tanggal: 25 Desember</p>
-                    <p class="text-sm text-gray-600 line-clamp-2">Membagikan berkat dan sukacita natal kepada sesama yang membutuhkan bantuan.</p>
-                </div>
+        <section class="space-y-4">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
+                Foto Komisi 1
+            </h2>
+            <div class="w-full h-64 md:h-96 bg-gray-100 rounded-2xl border border-gray-200 flex items-center justify-center text-gray-400 font-bold text-sm">
+                [Gambar Foto Komisi 1]
             </div>
-        </div>
+        </section>
+
     </div>
 @endsection

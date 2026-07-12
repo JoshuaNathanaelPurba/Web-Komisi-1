@@ -24,6 +24,8 @@ Route::get('/renungan', function () {
     return view('renungan');
 })->name('renungan');
 
+Route::view('/renungan/detail', 'detail-renungan')->name('renungan.detail');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     
     Route::get('/admin/dashboard', function () {
