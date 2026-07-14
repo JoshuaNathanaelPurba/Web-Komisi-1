@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 
 
 Route::get('/', function () {
@@ -32,13 +33,28 @@ Route::get('/galeri', function () {
     return view('galeri');
 })->name('galeri');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    
-Route::get('/admin/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-    
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');    
+    });
+    Route::get('/penjelasan/tambah', function () { return view('penjelasan-tambah'); })->name('admin.penjelasan.create');
+    Route::get('/penjelasan/edit', function () { return view('penjelasan-edit'); })->name('admin.penjelasan.edit');
+
+    Route::get('/sambutan/tambah', function () { return view('sambutan-tambah'); })->name('admin.sambutan.create');
+    Route::get('/sambutan/edit', function () { return view('sambutan-edit'); })->name('admin.sambutan.edit');
+
+    Route::get('/proker/tambah', function () { return view('proker-tambah'); })->name('admin.proker.create');
+    Route::get('/proker/edit', function () { return view('proker-edit'); })->name('admin.proker.edit');
+    
+    Route::get('/foto-komisi/tambah', function () { return view('foto-tambah'); })->name('admin.foto.create');
+    Route::get('/foto-komisi/edit', function () { return view('foto-edit'); })->name('admin.foto.edit');
+});
+    
 
 Route::get('/login', function () {
     return view('login');

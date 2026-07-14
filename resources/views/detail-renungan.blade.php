@@ -15,13 +15,21 @@
                  alt="Gambar Tema Renungan" class="w-full h-full object-cover">
         </div>
 
-        <div class="space-y-2 border-b border-gray-100 pb-6">
-            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                Berakar di Dalam Kristus
-            </h1>
-            <p class="text-base font-bold text-pmkBlue italic">
-                Kolose 2:6-7
-            </p>
+        <div class="space-y-2 border-b border-gray-100 pb-6 flex justify-between items-end">
+            <div>
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                    Berakar di Dalam Kristus
+                </h1>
+                <p class="text-base font-bold text-pmkBlue italic mt-1">
+                    Kolose 2:6-7
+                </p>
+            </div>
+            @if(Auth::check() && Auth::user()->role === 'admin')
+                <div class="flex gap-2">
+                    <button class="bg-yellow-500 hover:bg-yellow-600 text-white text-xs font-bold py-2 px-4 rounded-xl shadow-sm">Edit</button>
+                    <button class="bg-red-500 hover:bg-red-600 text-white text-xs font-bold py-2 px-4 rounded-xl shadow-sm">Hapus</button>
+                </div>
+            @endif
         </div>
 
         <article class="prose max-w-none text-gray-700 text-base sm:text-lg leading-relaxed space-y-6">
@@ -29,15 +37,12 @@
                 "Hendaklah hidupmu tetap di dalam Dia. Hendaklah kamu berakar di dalam Dia dan dibangun di atas Dia, bertambah teguh dalam iman yang telah diajarkan kepadamu, dan hendaklah hatimu melimpah dengan syukur."
             </p>
             <p>
-                [Bagian ini berisi seluruh penjelasan ayat dan isi renungan secara lengkap. Menjabarkan bagaimana fungsionaris maupun jemaat PMK Daniel diajak untuk menancapkan akar spiritualnya jauh ke dalam firman Tuhan, agar ketika badai kehidupan atau tantangan di dunia perkuliahan datang, iman mereka tidak mudah goyah.]
-            </p>
-            <p>
-                [Penjelasan tambahan mengenai aplikasi praktis dalam kehidupan sehari-hari, bagaimana membangun persekutuan yang intim dengan Kristus, serta ditutup dengan kalimat berkat atau kesimpulan yang menguatkan rohani pembaca.]
+                [Bagian ini berisi seluruh penjelasan ayat dan isi renungan secara lengkap.]
             </p>
         </article>
 
         <div class="pt-6 border-t border-gray-100 flex justify-start">
-            <a href="{{ route('renungan') }}  " class="text-sm font-bold text-pmkBlue hover:text-pmkOrange transition flex items-center gap-2">
+            <a href="{{ route('renungan') }}" class="text-sm font-bold text-pmkBlue hover:text-pmkOrange transition flex items-center gap-2">
                 &larr; Kembali ke Daftar    
             </a>
         </div>
