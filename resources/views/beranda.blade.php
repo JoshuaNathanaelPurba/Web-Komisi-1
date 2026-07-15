@@ -30,7 +30,7 @@
             <p class="text-gray-600 text-base sm:text-lg leading-relaxed">
                 @if($penjelasan)
                     {{ $penjelasan->konten }}
-                 @else
+                @else
                     Belum ada penjelasan mengenai Komisi 1. Silakan tambahkan melalui menu admin.
                 @endif
             </p>
@@ -43,9 +43,13 @@
                 </h2>
                 @if(Auth::check() && Auth::user()->role === 'admin')
                     <div class="flex gap-2">
-                        <button class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</button>
-                        <button class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</button>
-                        <button class="bg-red-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Hapus</button>
+                        <a href="{{ route('admin.sambutan.create') }}" class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</a>
+                        <a href="{{ route('admin.sambutan.edit') }}" class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</a>
+                        <form action="{{ route('admin.sambutan.destroy') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus Sambutan Pimpinan?')">
+                            @csrf 
+                            @method('DELETE')
+                            <button type="submit" class="bg-red-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Hapus</button>
+                        </form>
                     </div>
                 @endif
             </div>
@@ -53,36 +57,52 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col space-y-4">
                     <div class="flex items-center gap-5">
-                        <div class="w-24 h-24 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center text-gray-400 text-xs font-bold text-center p-2 border border-gray-200">
-                            Foto Ketua
+                        <div class="w-24 h-24 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center text-gray-400 text-xs font-bold text-center p-2 border border-gray-200 overflow-hidden">
+                            @if($sambutanKetua && $sambutanKetua->foto)
+                                <img src="{{ asset($sambutanKetua->foto) }}" alt="Foto Ketua" class="w-full h-full object-cover rounded-xl">
+                            @else
+                                Foto Ketua
+                            @endif
                         </div>
                         <div>
-                            <h3 class="text-xl font-bold text-gray-900">[Nama Ketua Komisi 1]</h3>
+                            <h3 class="text-xl font-bold text-gray-900">{{ $sambutanKetua->nama ?? '[Nama Ketua Komisi 1]' }}</h3>
                             <p class="text-sm font-semibold text-pmkBlue uppercase tracking-wider">Ketua Komisi 1</p>
-                            <p class="text-xs text-gray-400 font-medium">Periode 2026</p>
+                            <p class="text-xs text-gray-400 font-medium">Periode {{ $sambutanKetua->periode ?? '2026' }}</p>
                         </div>
                     </div>
                     <div class="bg-white p-4 rounded-xl border border-gray-200">
                         <p class="text-gray-600 italic text-sm sm:text-base leading-relaxed">
-                            "[Kata sambutan ketua komisi 1 diletakkan di bagian ini. Berisi pesan, visi pelayanan, serta kalimat hangat penyambutan.]"
+                            @if($sambutanKetua)
+                                "{!! $sambutanKetua->kata_sambutan !!}"
+                            @else
+                                "[Kata sambutan ketua komisi 1 diletakkan di bagian ini.]"
+                            @endif
                         </p>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col space-y-4">
                     <div class="flex items-center gap-5">
-                        <div class="w-24 h-24 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center text-gray-400 text-xs font-bold text-center p-2 border border-gray-200">
-                            Foto Wakil Ketua
+                        <div class="w-24 h-24 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center text-gray-400 text-xs font-bold text-center p-2 border border-gray-200 overflow-hidden">
+                            @if($sambutanWakil && $sambutanWakil->foto)
+                                <img src="{{ asset($sambutanWakil->foto) }}" alt="Foto Wakil" class="w-full h-full object-cover rounded-xl">
+                            @else
+                                Foto Wakil Ketua
+                            @endif
                         </div>
                         <div>
-                            <h3 class="text-xl font-bold text-gray-900">[Nama Wakil Ketua Komisi 1]</h3>
+                            <h3 class="text-xl font-bold text-gray-900">{{ $sambutanWakil->nama ?? '[Nama Wakil Ketua Komisi 1]' }}</h3>
                             <p class="text-sm font-semibold text-pmkBlue uppercase tracking-wider">Wakil Ketua Komisi 1</p>
-                            <p class="text-xs text-gray-400 font-medium">Periode 2026</p>
+                            <p class="text-xs text-gray-400 font-medium">Periode {{ $sambutanWakil->periode ?? '2026' }}</p>
                         </div>
                     </div>
                     <div class="bg-white p-4 rounded-xl border border-gray-200">
                         <p class="text-gray-600 italic text-sm sm:text-base leading-relaxed">
-                            "[Kata sambutan wakil ketua komisi 1 diletakkan di bagian ini...]"
+                            @if($sambutanWakil)
+                                "{!! $sambutanWakil->kata_sambutan !!}"
+                            @else
+                                "[Kata sambutan wakil ketua komisi 1 diletakkan di bagian ini...]"
+                            @endif
                         </p>
                     </div>
                 </div>
@@ -96,9 +116,8 @@
                 </h2>
                 @if(Auth::check() && Auth::user()->role === 'admin')
                     <div class="flex gap-2">
-                        <button class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</button>
-                        <button class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</button>
-                        <button class="bg-red-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Hapus</button>
+                        <a href="{{ route('admin.proker.create') }}" class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</a>
+                        <a href="{{ route('admin.proker.edit') }}" class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</a>
                     </div>
                 @endif
             </div>
@@ -127,9 +146,8 @@
                 </h2>
                 @if(Auth::check() && Auth::user()->role === 'admin')
                     <div class="flex gap-2">
-                        <button class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</button>
-                        <button class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</button>
-                        <button class="bg-red-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Hapus</button>
+                        <a href="{{ route('admin.foto.create') }}" class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</a>
+                        <a href="{{ route('admin.foto.edit') }}" class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</a>
                     </div>
                 @endif
             </div>

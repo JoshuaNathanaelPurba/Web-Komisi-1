@@ -4,7 +4,7 @@
 <div class="max-w-2xl mx-auto px-4 py-12 text-left">
     <h1 class="text-2xl font-extrabold text-gray-900 mb-6">Tambah Kata Sambutan Pimpinan</h1>
 
-    <form action="#" method="POST" enctype="multipart/form-data" class="space-y-5 bg-white p-6 border border-gray-200 rounded-2xl shadow-sm">
+    <form action="{{ route('admin.sambutan.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5 bg-white p-6 border border-gray-200 rounded-2xl shadow-sm">
         @csrf
 
         <div class="flex flex-col space-y-1.5">
@@ -19,12 +19,16 @@
 
         <div class="flex flex-col space-y-1.5">
             <label class="text-sm font-bold text-slate-700 uppercase tracking-wider">Form Jabatan</label>
-            <input type="text" name="jabatan" required placeholder="Masukkan jabatan..." class="w-full text-sm border-gray-300 rounded-xl focus:ring-pmkBlue focus:border-pmkBlue px-4 py-2.5">
+            <select name="jabatan" required class="w-full text-sm border-gray-300 rounded-xl focus:ring-pmkBlue focus:border-pmkBlue px-4 py-2.5 bg-white">
+                <option value="" disabled selected>-- Pilih Jabatan --</option>
+                <option value="Ketua Komisi 1">Ketua Komisi 1</option>
+                <option value="Wakil Ketua Komisi 1">Wakil Ketua Komisi 1</option>
+            </select>
         </div>
 
         <div class="flex flex-col space-y-1.5">
             <label class="text-sm font-bold text-slate-700 uppercase tracking-wider">Form Periode</label>
-            <input type="text" name="periode" required placeholder="Masukkan periode (Contoh: Periode 2026)..." class="w-full text-sm border-gray-300 rounded-xl focus:ring-pmkBlue focus:border-pmkBlue px-4 py-2.5">
+            <input type="text" name="periode" required placeholder="Masukkan periode (Contoh: 2026)..." class="w-full text-sm border-gray-300 rounded-xl focus:ring-pmkBlue focus:border-pmkBlue px-4 py-2.5">
         </div>
 
         <div class="flex flex-col space-y-1.5">

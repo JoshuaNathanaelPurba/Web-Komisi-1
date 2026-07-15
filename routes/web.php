@@ -3,16 +3,21 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-
+use App\Models\Penjelasan;
+use App\Models\Sambutan;
 
 Route::get('/', function () {
     $penjelasan = \App\Models\Penjelasan::first();
-    return view('beranda', compact('penjelasan'));
+    $sambutanKetua = \App\Models\Sambutan::where('jabatan', 'Ketua Komisi 1')->first();
+    $sambutanWakil = \App\Models\Sambutan::where('jabatan', 'Wakil Ketua Komisi 1')->first();
+    return view('beranda', compact('penjelasan', 'sambutanKetua', 'sambutanWakil'));
 });
 
 Route::get('/beranda', function () {
     $penjelasan = \App\Models\Penjelasan::first();
-    return view('beranda', compact('penjelasan'));
+    $sambutanKetua =  \App\Models\Sambutan::where('jabatan', 'Ketua Komisi 1')->first();
+    $sambutanWakil = \App\Models\Sambutan::where('jabatan', 'Wakil Ketua Komisi 1')->first();
+    return view('beranda', compact('penjelasan', 'sambutanKetua', 'sambutanWakil'));
 })->name('beranda');
 
 Route::get('/profil', function () {
@@ -59,10 +64,20 @@ Route::middleware(['auth', 'admin'])->group(function () {
         return redirect()->route('beranda')->with('success', 'Penjelasan berhasil dihapus!');
     })->name('admin.penjelasan.destroy');
 
-    Route::get('/sambutan/tambah', function () { return view('sambutan-tambah'); })->name('admin.sambutan.create');
+    Route::get('/sambutan/tambah', function () {
+        return view('sambutan-tambah'); 
+    })->name('admin.sambutan.create');
     Route::post('/sambutan/tambah', [DashboardController::class, 'storeSambutan'])->name('admin.sambutan.store');
-    Route::get('/sambutan/edit', function () { return view('sambutan-edit'); })->name('admin.sambutan.edit');
+    Route::get('/sambutan/edit', function () { 
+        $sambutan = \App\Models\Sambutan::first();
+        return view('sambutan-edit', compact('sambutan')); 
+    })->name('admin.sambutan.edit');
     Route::put('/sambutan/edit', [DashboardController::class, 'updateSambutan'])->name('admin.sambutan.update');
+    Route::delete('/sambutan/hapus', function () {
+        $sambutan = \App\Models\Sambutan::first();
+        if ($sambutan) { $sambutan->delete(); }
+        return redirect()->route('beranda')->with('success', 'Sambutan berhasil dihapus!');
+    })->name('admin.sambutan.destroy');
 
     Route::get('/proker/tambah', function () { return view('proker-tambah'); })->name('admin.proker.create');
     Route::post('/proker/tambah', [DashboardController::class, 'storeProker'])->name('admin.proker.store');
