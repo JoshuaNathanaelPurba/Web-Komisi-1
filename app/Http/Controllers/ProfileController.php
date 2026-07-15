@@ -57,4 +57,15 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function destroyPenjelasan()
+    {
+        $penjelasan = Penjelasan::first();
+
+        if ($penjelasan) {
+            $penjelasan->delete();
+        }
+
+        return redirect()->route('beranda')->with('success', 'Penjelasan berhasil dihapus!');
+    }
 }

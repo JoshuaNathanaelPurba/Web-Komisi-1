@@ -19,15 +19,20 @@
                     <div class="flex gap-2">
                         <a href="{{ route('admin.penjelasan.create') }}" class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</a>
                         <a href="{{ route('admin.penjelasan.edit') }}" class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</a>
-                        <form action="#" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus Penjelasan Komisi 1?')">
-                            @csrf @method('DELETE')
+                        <form action="{{ route('admin.penjelasan.destroy') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus Penjelasan Komisi 1?')">
+                            @csrf 
+                            @method('DELETE')
                             <button type="submit" class="bg-red-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Hapus</button>
                         </form>
                     </div>
                 @endif
             </div>
             <p class="text-gray-600 text-base sm:text-lg leading-relaxed">
-                [Penjelasan komisi 1 berada di sini. Bagian ini menjelaskan fokus utama komisi dalam melakukan pembinaan rohani, pengembangan karakter, serta program spiritualitas yang dirancang untuk mendukung seluruh fungsionaris maupun jemaat.]
+                @if($penjelasan)
+                    {{ $penjelasan->konten }}
+                 @else
+                    Belum ada penjelasan mengenai Komisi 1. Silakan tambahkan melalui menu admin.
+                @endif
             </p>
         </section>
 

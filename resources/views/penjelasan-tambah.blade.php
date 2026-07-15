@@ -4,7 +4,7 @@
 <div class="max-w-2xl mx-auto px-4 py-12 text-left">
     <h1 class="text-2xl font-extrabold text-gray-900 mb-6">Tambah Penjelasan Komisi 1</h1>
 
-    <form action="#" method="POST" class="space-y-6 bg-white p-6 border border-gray-200 rounded-2xl shadow-sm">
+<form action="{{ route('admin.penjelasan.store') }}" method="POST" class="space-y-6 bg-white p-6 border border-gray-200 rounded-2xl shadow-sm">
         @csrf
         <div class="flex flex-col space-y-1.5">
             <label for="konten" class="text-sm font-bold text-slate-700 uppercase tracking-wider">Form Pengisian Penjelasan Komisi 1 Baru</label>
