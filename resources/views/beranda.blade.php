@@ -59,7 +59,7 @@
                     <div class="flex items-center gap-5">
                         <div class="w-24 h-24 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center text-gray-400 text-xs font-bold text-center p-2 border border-gray-200 overflow-hidden">
                             @if($sambutanKetua && $sambutanKetua->foto)
-                                <img src="{{ asset($sambutanKetua->foto) }}" alt="Foto Ketua" class="w-full h-full object-cover rounded-xl">
+                                <img src="{{ asset('storage/' . $sambutanKetua->foto) }}" alt="Foto Ketua class="w-full h-full object-cover rounded-xl">">
                             @else
                                 Foto Ketua
                             @endif
@@ -85,7 +85,7 @@
                     <div class="flex items-center gap-5">
                         <div class="w-24 h-24 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center text-gray-400 text-xs font-bold text-center p-2 border border-gray-200 overflow-hidden">
                             @if($sambutanWakil && $sambutanWakil->foto)
-                                <img src="{{ asset($sambutanWakil->foto) }}" alt="Foto Wakil" class="w-full h-full object-cover rounded-xl">
+                                <img src="{{ asset('storage/' . $sambutanWakil->foto) }}" alt="Foto Wakil" class="w-full h-full object-cover rounded-xl">
                             @else
                                 Foto Wakil Ketua
                             @endif
@@ -114,28 +114,65 @@
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
                     Program Kerja
                 </h2>
+                {{-- Di atas judul cukup sisakan tombol "+ Tambah" saja karena belum memilih data tertentu --}}
                 @if(Auth::check() && Auth::user()->role === 'admin')
                     <div class="flex gap-2">
                         <a href="{{ route('admin.proker.create') }}" class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</a>
-                        <a href="{{ route('admin.proker.edit') }}" class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</a>
                     </div>
                 @endif
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 group">
-                    <div class="h-48 bg-gray-100 flex items-center justify-center text-gray-400 font-bold text-sm border-b border-gray-200">
-                        [Gambar Proker]
+                
+                @forelse($prokers as $proker)
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 group flex flex-col justify-between">
+                        <div>
+                            {{-- Menampilkan Gambar Proker Secara Dinamis --}}
+                            <div class="h-48 bg-gray-100 flex items-center justify-center border-b border-gray-200 overflow-hidden">
+                                @if($proker->foto_proker)
+                                    <img src="{{ asset('storage/' . $proker->foto_proker) }}" alt="{{ $proker->nama_proker }}" class="w-full h-full object-cover">
+                                @else
+                                    <span class="text-gray-400 font-bold text-sm">[Tidak Ada Gambar]</span>
+                                @endif
+                            </div>
+                            
+                            <div class="p-5">
+                                {{-- Menampilkan Nama Proker --}}
+                                <h4 class="font-bold text-gray-900 group-hover:text-pmkBlue transition mb-2 text-lg">
+                                    {{ $proker->nama_proker }}
+                                </h4>
+                                {{-- Menampilkan Penjelasan Proker --}}
+                                <p class="text-sm text-gray-600 leading-relaxed">
+                                    {{ $proker->penjelasan_proker }}
+                                </p>
+                            </div>
+                        </div>
+
+                        {{-- PINDAHKAN TOMBOL EDIT & HAPUS KE SINI (DENGAN MENAMBAHKAN PARAMETER ID) --}}
+                        @if(Auth::check() && Auth::user()->role === 'admin')
+                            <div class="px-5 pb-5 pt-2 flex justify-end gap-2 border-t border-gray-50 bg-gray-50/50">
+                                {{-- Tombol Edit dengan Parameter ID --}}
+                                <a href="{{ route('admin.proker.edit', $proker->id) }}" class="bg-yellow-500 text-white text-xs font-bold py-1.5 px-3 rounded-lg shadow hover:bg-yellow-600 transition">
+                                    Edit
+                                </a>
+
+                                {{-- Form Hapus dengan Parameter ID --}}
+                                <form action="{{ route('admin.proker.destroy', $proker->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus Program Kerja ini?')">
+                                    @csrf 
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-500 text-white text-xs font-bold py-1.5 px-3 rounded-lg shadow hover:bg-red-600 transition">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </div>
+                        @endif
                     </div>
-                    <div class="p-5">
-                        <h4 class="font-bold text-gray-900 group-hover:text-pmkBlue transition mb-2 text-lg">
-                            [Nama Proker]
-                        </h4>
-                        <p class="text-sm text-gray-600 leading-relaxed">
-                            [Penjelasan mengenai program kerja. Berisi rincian agenda, esensi, dan tujuan utama diadakannya kegiatan pembinaan tersebut.]
-                        </p>
+                @empty
+                    <div class="col-span-full bg-gray-50 border border-dashed border-gray-300 rounded-xl p-8 text-center text-gray-500">
+                        Belum ada program kerja yang ditambahkan. Silakan klik tombol "+ Tambah" di atas untuk menambahkan.
                     </div>
-                </div>
+                @endforelse
+
             </div>
         </section>
 
@@ -147,12 +184,34 @@
                 @if(Auth::check() && Auth::user()->role === 'admin')
                     <div class="flex gap-2">
                         <a href="{{ route('admin.foto.create') }}" class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</a>
-                        <a href="{{ route('admin.foto.edit') }}" class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</a>
                     </div>
                 @endif
             </div>
-            <div class="w-full h-64 md:h-96 bg-gray-100 rounded-2xl border border-gray-200 flex items-center justify-center text-gray-400 font-bold text-sm">
-                [Gambar Foto Komisi 1]
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @forelse($fotos ?? [] as $foto)
+                    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 flex flex-col justify-between">
+                        <div class="w-full h-48 md:h-64 bg-gray-100 rounded-xl overflow-hidden border border-gray-200 mb-3">
+                            <img src="{{ asset('storage/' . $foto->path_foto) }}" alt="{{ $foto->judul }}" class="w-full h-full object-cover">
+                        </div>
+                        <h4 class="text-sm font-bold text-gray-800 mb-2 px-1">{{ $foto->judul }}</h4>
+                        
+                        @if(Auth::check() && Auth::user()->role === 'admin')
+                            <div class="flex gap-2 justify-end pt-2 border-t border-gray-50">
+                                <a href="{{ route('admin.foto.edit', $foto->id) }}" class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</a>
+                                <form action="{{ route('admin.foto.destroy', $foto->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus Foto Komisi 1?')">
+                                    @csrf 
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Hapus</button>
+                                </form>
+                            </div>
+                        @endif
+                    </div>
+                @empty
+                    <div class="col-span-full w-full h-64 bg-gray-100 rounded-2xl border border-gray-200 flex items-center justify-center text-gray-400 font-bold text-sm">
+                        Belum ada foto komisi yang ditambahkan.
+                    </div>
+                @endforelse
             </div>
         </section>
 

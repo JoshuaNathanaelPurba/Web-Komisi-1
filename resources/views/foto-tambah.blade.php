@@ -4,7 +4,7 @@
 <div class="max-w-2xl mx-auto px-4 py-12 text-left">
     <h1 class="text-2xl font-extrabold text-gray-900 mb-6">Tambah Foto Komisi 1</h1>
 
-    <form action="#" method="POST" enctype="multipart/form-data" class="space-y-6 bg-white p-6 border border-gray-200 rounded-2xl shadow-sm">
+    <form action="{{ route('admin.foto.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6 bg-white p-6 border border-gray-200 rounded-2xl shadow-sm">
         @csrf
         <div class="flex flex-col space-y-1.5">
             <label class="text-sm font-bold text-slate-700 uppercase tracking-wider">Form Input Foto Komisi</label>

@@ -6,12 +6,22 @@ use Illuminate\Http\Request;
 use App\Models\Penjelasan;
 use App\Models\Sambutan;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Proker;
+use App\Models\Foto;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard');
+        $penjelasan = Penjelasan::first();
+        $sambutanKetua = Sambutan::where('jabatan', 'Ketua Komisi 1')->first();
+        $sambutanWakil = Sambutan::where('jabatan', 'Wakil Ketua Komisi 1')->first();
+        
+        $prokers = Proker::all(); 
+        // Mengambil semua data foto untuk disalurkan ke beranda
+        $fotos = Foto::all(); 
+
+        return view('beranda', compact('penjelasan', 'sambutanKetua', 'sambutanWakil', 'prokers', 'fotos'));
     }
 
     public function storePenjelasan(Request $request)
@@ -118,5 +128,132 @@ class DashboardController extends Controller
         }
 
         return redirect()->route('beranda')->with('success', 'Sambutan pimpinan berhasil diperbarui!');
+    }
+
+    public function storeProker(Request $request)
+    {
+        $request->validate([
+            'nama_proker' => 'required|string|max:255',
+            'penjelasan_proker'   => 'required|string',
+            'foto_proker'      => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $data = $request->only(['nama_proker', 'penjelasan_proker']);
+
+        if ($request->hasFile('foto_proker')) {
+            $data['foto_proker'] = $request->file('foto_proker')->store('proker', 'public');
+        }
+
+        Proker::create($data);
+
+        return redirect()->route('beranda')->with('success', 'Program Kerja baru berhasil ditambahkan!');
+    }
+
+    public function editProker($id)
+    {
+        $proker = Proker::findOrFail($id);
+        return view('proker-edit', compact('proker'));
+    }
+
+    public function updateProker(Request $request, $id)
+    {
+        $proker = Proker::findOrFail($id);
+
+        $request->validate([
+            'nama_proker' => 'required|string|max:255',
+            'penjelasan_proker'   => 'required|string',
+            'foto_proker'      => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $data = $request->only(['nama_proker', 'penjelasan_proker']);
+
+        if ($request->hasFile('foto_proker')) {
+            if ($proker->foto_proker) {
+                Storage::disk('public')->delete($proker->foto_proker);
+            }
+            $data['foto_proker'] = $request->file('foto_proker')->store('proker', 'public');
+        }
+
+        $proker->update($data);
+
+        return redirect()->route('beranda')->with('success', 'Program Kerja berhasil diperbarui!');
+    }
+    
+    public function destroyProker($id)
+    {
+        $proker = Proker::findOrFail($id);
+
+        if ($proker->foto_proker) {
+            Storage::disk('public')->delete($proker->foto_proker);
+        }
+
+        $proker->delete();
+
+        return redirect()->route('beranda')->with('success', 'Program Kerja berhasil dihapus!');
+    }
+
+public function storeFoto(Request $request)
+    {
+        // 1. Validasi input file foto_komisi yang dikirim dari form blade
+        $request->validate([
+            'foto_komisi' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $pathFoto = null;
+        // 2. Ambil file foto_komisi dan simpan ke folder storage
+        if ($request->hasFile('foto_komisi')) {
+            $pathFoto = $request->file('foto_komisi')->store('foto-komisi', 'public');
+        }
+
+        // 3. Simpan data path_foto ke database SQLite
+        // PERBAIKAN: Ubah key 'judul' menjadi 'gambar' agar sesuai model & migration
+        Foto::create([
+            'gambar'    => '', // Diisi string kosong karena Anda tidak memakai judul
+            'path_foto' => $pathFoto,
+        ]);
+
+        // 4. Alihkan kembali ke halaman beranda setelah sukses menyimpan
+        return redirect()->route('beranda')->with('success', 'Foto Komisi 1 berhasil ditambahkan!');
+    }
+
+    public function editFoto($id)
+    {
+        $foto = Foto::findOrFail($id);
+        return view('foto-edit', compact('foto'));
+    }
+
+    public function updateFoto(Request $request, $id)
+    {
+        $foto = Foto::findOrFail($id);
+
+        $request->validate([
+            'gambar'     => 'required|string|max:255',
+            'path_foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $data = $request->only(['gambar']);
+
+        if ($request->hasFile('path_foto')) {
+            if ($foto->path_foto) {
+                Storage::disk('public')->delete($foto->path_foto);
+            }
+            $data['path_foto'] = $request->file('path_foto')->store('foto-komisi', 'public');
+        }
+
+        $foto->update($data);
+
+        return redirect()->route('beranda')->with('success', 'Foto Komisi 1 berhasil diperbarui!');
+    }
+
+    public function destroyFoto($id)
+    {
+        $foto = Foto::findOrFail($id);
+        if ($foto->path_foto) {
+            Storage::disk('public')->delete($foto->path_foto);
+        }
+
+        $foto->delete();
+
+        return redirect()->route('beranda')->with('success', 'Foto Komisi 1 berhasil dihapus!');
     }
 }

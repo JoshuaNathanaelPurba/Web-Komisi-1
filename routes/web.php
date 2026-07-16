@@ -10,15 +10,12 @@ Route::get('/', function () {
     $penjelasan = \App\Models\Penjelasan::first();
     $sambutanKetua = \App\Models\Sambutan::where('jabatan', 'Ketua Komisi 1')->first();
     $sambutanWakil = \App\Models\Sambutan::where('jabatan', 'Wakil Ketua Komisi 1')->first();
-    return view('beranda', compact('penjelasan', 'sambutanKetua', 'sambutanWakil'));
+    $prokers = \App\Models\Proker::all();
+    $fotos = \App\Models\Foto::all();
+    return view('beranda', compact('penjelasan', 'sambutanKetua', 'sambutanWakil', 'prokers', 'fotos'));
 });
 
-Route::get('/beranda', function () {
-    $penjelasan = \App\Models\Penjelasan::first();
-    $sambutanKetua =  \App\Models\Sambutan::where('jabatan', 'Ketua Komisi 1')->first();
-    $sambutanWakil = \App\Models\Sambutan::where('jabatan', 'Wakil Ketua Komisi 1')->first();
-    return view('beranda', compact('penjelasan', 'sambutanKetua', 'sambutanWakil'));
-})->name('beranda');
+Route::get('/beranda', [DashboardController::class, 'index'])->name('beranda');
 
 Route::get('/profil', function () {
     return view('profil');
@@ -81,13 +78,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/proker/tambah', function () { return view('proker-tambah'); })->name('admin.proker.create');
     Route::post('/proker/tambah', [DashboardController::class, 'storeProker'])->name('admin.proker.store');
-    Route::get('/proker/edit', function () { return view('proker-edit'); })->name('admin.proker.edit');
-    Route::put('/proker/edit', [DashboardController::class, 'updateProker'])->name('admin.proker.update');
+    Route::get('/proker/edit/{id}', [DashboardController::class, 'editProker'])->name('admin.proker.edit');
+    Route::put('/proker/edit/{id}', [DashboardController::class, 'updateProker'])->name('admin.proker.update');
+    Route::delete('/proker/hapus/{id}', [DashboardController::class, 'destroyProker'])->name('admin.proker.destroy');
     
     Route::get('/foto-komisi/tambah', function () { return view('foto-tambah'); })->name('admin.foto.create');
     Route::post('/foto-komisi/tambah', [DashboardController::class, 'storeFoto'])->name('admin.foto.store');
-    Route::get('/foto-komisi/edit', function () { return view('foto-edit'); })->name('admin.foto.edit');
-    Route::put('/foto-komisi/edit', [DashboardController::class, 'updateFoto'])->name('admin.foto.update');
+    Route::get('/foto-komisi/edit/{id}', [DashboardController::class, 'editFoto'])->name('admin.foto.edit');
+    Route::put('/foto-komisi/edit/{id}', [DashboardController::class, 'updateFoto'])->name('admin.foto.update');
+    Route::delete('/foto-komisi/hapus/{id}', [DashboardController::class, 'destroyFoto'])->name('admin.foto.destroy');
 });
     
 

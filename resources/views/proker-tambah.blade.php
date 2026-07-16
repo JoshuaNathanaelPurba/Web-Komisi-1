@@ -4,7 +4,7 @@
 <div class="max-w-2xl mx-auto px-4 py-12 text-left">
     <h1 class="text-2xl font-extrabold text-gray-900 mb-6">Tambah Program Kerja Komisi 1</h1>
 
-    <form action="#" method="POST" enctype="multipart/form-data" class="space-y-5 bg-white p-6 border border-gray-200 rounded-2xl shadow-sm">
+    <form action="{{ route('admin.proker.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5 bg-white p-6 border border-gray-200 rounded-2xl shadow-sm">
         @csrf
 
         <div class="flex flex-col space-y-1.5">

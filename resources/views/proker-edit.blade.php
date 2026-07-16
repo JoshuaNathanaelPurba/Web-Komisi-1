@@ -4,7 +4,7 @@
 <div class="max-w-2xl mx-auto px-4 py-12 text-left">
     <h1 class="text-2xl font-extrabold text-gray-900 mb-6">Edit Program Kerja Komisi 1</h1>
 
-    <form action="#" method="POST" enctype="multipart/form-data" class="space-y-5 bg-white p-6 border border-gray-200 rounded-2xl shadow-sm">
+    <form action="{{ route('admin.proker.update', $proker->id) }}" method="POST" enctype="multipart/form-data" class="space-y-5 ...">
         @csrf
         @method('PUT')
 
@@ -15,12 +15,14 @@
 
         <div class="flex flex-col space-y-1.5">
             <label class="text-sm font-bold text-slate-700 uppercase tracking-wider">Form Nama Program Kerja</label>
-            <input type="text" name="nama_proker" value="[Nama Proker Lama]" required class="w-full text-sm border-gray-300 rounded-xl focus:ring-pmkBlue focus:border-pmkBlue px-4 py-2.5">
+            {{-- UBAH VALUE MENJADI DINAMIS --}}
+            <input type="text" name="nama_proker" value="{{ old('nama_proker', $proker->nama_proker) }}" required class="w-full text-sm border-gray-300 rounded-xl focus:ring-pmkBlue focus:border-pmkBlue px-4 py-2.5">
         </div>
 
         <div class="flex flex-col space-y-1.5">
             <label class="text-sm font-bold text-slate-700 uppercase tracking-wider">Form Penjelasan Program Kerja</label>
-            <textarea name="penjelasan_proker" rows="5" required class="w-full text-sm border-gray-300 rounded-xl focus:ring-pmkBlue focus:border-pmkBlue px-4 py-2.5">[Penjelasan lama program kerja...]</textarea>
+            {{-- UBAH ISI TEXTAREA MENJADI DINAMIS --}}
+            <textarea name="penjelasan_proker" rows="5" required class="w-full text-sm border-gray-300 rounded-xl focus:ring-pmkBlue focus:border-pmkBlue px-4 py-2.5">{{ old('penjelasan_proker', $proker->penjelasan_proker) }}</textarea>
         </div>
 
         <div class="flex justify-end gap-2 pt-2">
