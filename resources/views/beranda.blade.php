@@ -176,7 +176,7 @@
             </div>
         </section>
 
-        <section class="space-y-4">
+<section class="space-y-4">
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
                     Foto Komisi 1
@@ -188,21 +188,23 @@
                 @endif
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 gap-8">
                 @forelse($fotos ?? [] as $foto)
-                    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 flex flex-col justify-between">
-                        <div class="w-full h-48 md:h-64 bg-gray-100 rounded-xl overflow-hidden border border-gray-200 mb-3">
-                            <img src="{{ asset('storage/' . $foto->path_foto) }}" alt="{{ $foto->judul }}" class="w-full h-full object-cover">
+                    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex flex-col justify-between">
+                        
+                        <div class="w-full h-auto bg-gray-50 rounded-xl overflow-hidden border border-gray-200 mb-3">
+                            <img src="{{ asset('storage/' . $foto->path_foto) }}" alt="{{ $foto->judul }}" class="w-full h-auto object-contain mx-auto">
                         </div>
-                        <h4 class="text-sm font-bold text-gray-800 mb-2 px-1">{{ $foto->judul }}</h4>
+                        
+                        <h4 class="text-base font-bold text-gray-800 mb-2 px-1">{{ $foto->judul }}</h4>
                         
                         @if(Auth::check() && Auth::user()->role === 'admin')
-                            <div class="flex gap-2 justify-end pt-2 border-t border-gray-50">
-                                <a href="{{ route('admin.foto.edit', $foto->id) }}" class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</a>
+                            <div class="flex gap-2 justify-end pt-3 border-t border-gray-100">
+                                <a href="{{ route('admin.foto.edit', $foto->id) }}" class="bg-yellow-500 text-white text-xs font-bold py-1.5 px-3 rounded shadow hover:bg-yellow-600 transition">Edit</a>
                                 <form action="{{ route('admin.foto.destroy', $foto->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus Foto Komisi 1?')">
                                     @csrf 
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Hapus</button>
+                                    <button type="submit" class="bg-red-500 text-white text-xs font-bold py-1.5 px-3 rounded shadow hover:bg-red-600 transition">Hapus</button>
                                 </form>
                             </div>
                         @endif

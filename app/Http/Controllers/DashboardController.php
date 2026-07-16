@@ -8,6 +8,7 @@ use App\Models\Sambutan;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Proker;
 use App\Models\Foto;
+use App\Models\BaganStruktur;
 
 class DashboardController extends Controller
 {
@@ -208,7 +209,7 @@ public function storeFoto(Request $request)
         // 3. Simpan data path_foto ke database SQLite
         // PERBAIKAN: Ubah key 'judul' menjadi 'gambar' agar sesuai model & migration
         Foto::create([
-            'gambar'    => '', // Diisi string kosong karena Anda tidak memakai judul
+            'gambar'    => 'Foto Komisi 1',
             'path_foto' => $pathFoto,
         ]);
 
@@ -228,7 +229,7 @@ public function storeFoto(Request $request)
 
         $request->validate([
             'gambar'     => 'required|string|max:255',
-            'path_foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'path_foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
         $data = $request->only(['gambar']);
@@ -256,4 +257,82 @@ public function storeFoto(Request $request)
 
         return redirect()->route('beranda')->with('success', 'Foto Komisi 1 berhasil dihapus!');
     }
+
+    public function indexStruktur()
+{
+    // Mengambil bagan struktur pertama yang ada di database
+    $bagan = BaganStruktur::first();
+    return view('struktur', compact('bagan'));
+}
+
+// 2. Menampilkan Form Tambah / Upload Bagan
+public function createBagan()
+{
+    return view('struktur-tambah');
+}
+
+// 3. Memproses Simpan Bagan
+public function storeBagan(Request $request)
+{
+    $request->validate([
+        'foto_bagan' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120', // Max 5MB
+    ]);
+
+    $pathFoto = null;
+    if ($request->hasFile('foto_bagan')) {
+        $pathFoto = $request->file('foto_bagan')->store('bagan-struktur', 'public');
+    }
+
+    BaganStruktur::create([
+        'path_foto' => $pathFoto
+    ]);
+
+    return redirect()->route('struktur')->with('success', 'Bagan struktur organisasi berhasil diunggah!');
+}
+
+// 4. Menampilkan Form Edit Bagan
+public function editBagan($id)
+{
+    $bagan = BaganStruktur::findOrFail($id);
+    return view('struktur-edit', compact('bagan'));
+}
+
+// 5. Memproses Update Bagan
+public function updateBagan(Request $request, $id)
+{
+    $bagan = BaganStruktur::findOrFail($id);
+
+    $request->validate([
+        'foto_bagan' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+    ]);
+
+    $pathFoto = $bagan->path_foto;
+    if ($request->hasFile('foto_bagan')) {
+        // Hapus file bagan yang lama dari storage
+        if ($bagan->path_foto) {
+            Storage::disk('public')->delete($bagan->path_foto);
+        }
+        $pathFoto = $request->file('foto_bagan')->store('bagan-struktur', 'public');
+    }
+
+    $bagan->update([
+        'path_foto' => $pathFoto
+    ]);
+
+    return redirect()->route('struktur')->with('success', 'Bagan struktur organisasi berhasil diperbarui!');
+}
+
+// 6. Memproses Hapus Bagan
+public function destroyBagan($id)
+{
+    $bagan = BaganStruktur::findOrFail($id);
+
+    if ($bagan->path_foto) {
+        Storage::disk('public')->delete($bagan->path_foto);
+    }
+    
+    $bagan->delete();
+
+    return redirect()->route('struktur')->with('success', 'Bagan struktur organisasi berhasil dihapus!');
+}
 }

@@ -21,9 +21,7 @@ Route::get('/profil', function () {
     return view('profil');
 })->name('profil');
 
-Route::get('/struktur', function () {
-    return view('struktur');
-})->name('struktur');
+Route::get('/struktur', [DashboardController::class, 'indexStruktur'])->name('struktur');
 
 Route::get('/renungan', function () {
     return view('renungan');
@@ -87,6 +85,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/foto-komisi/edit/{id}', [DashboardController::class, 'editFoto'])->name('admin.foto.edit');
     Route::put('/foto-komisi/edit/{id}', [DashboardController::class, 'updateFoto'])->name('admin.foto.update');
     Route::delete('/foto-komisi/hapus/{id}', [DashboardController::class, 'destroyFoto'])->name('admin.foto.destroy');
+
+    Route::get('/struktur/tambah', [DashboardController::class, 'createBagan'])->name('admin.bagan.create');
+    Route::post('/struktur/tambah', [DashboardController::class, 'storeBagan'])->name('admin.bagan.store');
+    Route::get('/struktur/edit/{id}', [DashboardController::class, 'editBagan'])->name('admin.bagan.edit');
+    Route::put('/struktur/edit/{id}', [DashboardController::class, 'updateBagan'])->name('admin.bagan.update');
+    Route::delete('/struktur/hapus/{id}', [DashboardController::class, 'destroyBagan'])->name('admin.bagan.destroy');
 });
     
 

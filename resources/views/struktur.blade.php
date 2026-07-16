@@ -1,66 +1,86 @@
 @extends('public')
 
 @section('content')
-    <div class="bg-white border-b border-gray-100 shadow-sm pt-12 pb-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
-            <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-2">Struktur Organisasi</h1>
-            <p class="text-xl sm:text-2xl text-slate-600 font-medium">Komisi 1 Pembinaan</p>
+<div class="bg-white max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16 text-left">
+    
+    <section class="space-y-6">
+        <div class="flex justify-between items-center border-b border-gray-100 pb-4">
+            <div class="space-y-1">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Struktur Organisasi</h2>
+                <h3 class="text-xl font-semibold text-gray-500">Komisi 1 Pembinaan</h3>
+            </div>
+            
+            @if(Auth::check() && Auth::user()->role === 'admin')
+                @if(!$bagan)
+                    <a href="{{ route('admin.bagan.create') }}" class="bg-blue-600 text-white text-xs font-bold py-1.5 px-3 rounded shadow hover:bg-blue-700 transition">+ Unggah Bagan</a>
+                @endif
+            @endif
         </div>
-    </div>
 
-    <div class="bg-white max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
-
-        <section class="space-y-8 flex flex-col items-center justify-center text-center">
-            <div class="w-full flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-slate-900">Struktur Organisasi</h2>
-                @if(Auth::check() && Auth::user()->role === 'admin')
-                    <div class="flex gap-2">
-                        <button class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</button>
-                        <button class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</button>
-                        <button class="bg-red-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Hapus</button>
+        <div class="grid grid-cols-1 gap-6">
+            @if($bagan)
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex flex-col justify-between">
+                    
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 border-b border-gray-50 pb-2">Struktur Organisasi Komisi 1 Pembinaan</h3>
+                    
+                    <div class="w-full h-auto bg-gray-50 rounded-xl overflow-hidden border border-gray-200 mb-4">
+                        <img src="{{ asset('storage/' . $bagan->path_foto) }}" alt="Bagan Struktur Organisasi" class="w-full h-auto object-contain mx-auto">
                     </div>
-                @endif
-            </div>
-            
-            <div class="flex flex-col items-center w-full max-w-sm mt-4">
-                <div class="bg-gradient-to-r from-pmkBlue to-blue-800 text-white font-bold px-6 py-3 rounded-xl shadow-md text-sm w-60">Ketua Komisi 1</div>
-                <div class="w-0.5 h-8 bg-gradient-to-b from-blue-700 to-amber-500"></div>
-                <div class="bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold px-6 py-3 rounded-xl shadow-md text-sm w-60">Wakil Ketua Komisi 1</div>
-                <div class="w-0.5 h-8 bg-gradient-to-b from-orange-500 to-slate-400"></div>
-                <div class="bg-slate-800 text-white font-bold px-6 py-3 rounded-xl shadow-md text-sm w-60 border border-slate-700">Anggota</div>
-            </div>
-        </section>
+                    
+                    @if(Auth::check() && Auth::user()->role === 'admin')
+                        <div class="flex gap-2 justify-end pt-3 border-t border-gray-100">
+                            <a href="{{ route('admin.bagan.edit', $bagan->id) }}" class="bg-yellow-500 text-white text-xs font-bold py-1.5 px-3 rounded shadow hover:bg-yellow-600 transition">Ganti Gambar</a>
+                            
+                            <form action="{{ route('admin.bagan.destroy', $bagan->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus gambar Bagan Struktur ini?')">
+                                @csrf 
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-500 text-white text-xs font-bold py-1.5 px-3 rounded shadow hover:bg-red-600 transition">Hapus</button>
+                            </form>
+                        </div>
+                    @endif
+                </div>
+            @else
+                <div class="w-full h-96 bg-gray-50 rounded-2xl border border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-400 font-medium text-sm space-y-2">
+                    <span>Gambar bagan struktur organisasi belum ditambahkan.</span>
+                    @if(Auth::check() && Auth::user()->role === 'admin')
+                        <span class="text-xs text-gray-500">Silakan klik tombol "+ Unggah Bagan" di atas.</span>
+                    @endif
+                </div>
+            @endif
+        </div>
+    </section> 
 
-        <section class="space-y-6 text-left">
-            <div class="w-full flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-slate-900">Pimpinan Komisi 1</h2>
-                @if(Auth::check() && Auth::user()->role === 'admin')
-                    <div class="flex gap-2">
-                        <button class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</button>
-                        <button class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</button>
-                        <button class="bg-red-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Hapus</button>
-                    </div>
-                @endif
+    <section class="space-y-6">
+        <div class="w-full flex justify-between items-center">
+            <h2 class="text-2xl font-bold text-slate-900">Pimpinan Komisi 1</h2>
+            @if(Auth::check() && Auth::user()->role === 'admin')
+                <div class="flex gap-2">
+                    <button class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</button>
+                    <button class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</button>
+                    <button class="bg-red-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Hapus</button>
+                </div>
+            @endif
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl">
             </div>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl">
-            </div>
-        </section>
+    </section>
 
-        <section class="space-y-6 text-left">
-            <div class="w-full flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-slate-900">Anggota Komisi 1</h2>
-                @if(Auth::check() && Auth::user()->role === 'admin')
-                    <div class="flex gap-2">
-                        <button class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</button>
-                        <button class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</button>
-                        <button class="bg-red-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Hapus</button>
-                    </div>
-                @endif
-            </div>
+    <section class="space-y-6">
+        <div class="w-full flex justify-between items-center">
+            <h2 class="text-2xl font-bold text-slate-900">Anggota Komisi 1</h2>
+            @if(Auth::check() && Auth::user()->role === 'admin')
+                <div class="flex gap-2">
+                    <button class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</button>
+                    <button class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</button>
+                    <button class="bg-red-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Hapus</button>
+                </div>
+            @endif
+        </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             </div>
-        </section>
-    </div>
+    </section>
+
+</div> 
 @endsection
