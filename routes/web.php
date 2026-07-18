@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Models\Penjelasan;
 use App\Models\Sambutan;
+use App\Models\Anggota;
 
 Route::get('/', function () {
     $penjelasan = \App\Models\Penjelasan::first();
@@ -91,6 +92,18 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/struktur/edit/{id}', [DashboardController::class, 'editBagan'])->name('admin.bagan.edit');
     Route::put('/struktur/edit/{id}', [DashboardController::class, 'updateBagan'])->name('admin.bagan.update');
     Route::delete('/struktur/hapus/{id}', [DashboardController::class, 'destroyBagan'])->name('admin.bagan.destroy');
+
+    Route::get('/struktur/pimpinan/tambah', [DashboardController::class, 'createPimpinan'])->name('pimpinan.create');
+    Route::post('/struktur/pimpinan/tambah', [DashboardController::class, 'storePimpinan'])->name('pimpinan.store');
+    Route::get('/struktur/pimpinan/{id}/edit', [DashboardController::class, 'editPimpinan'])->name('pimpinan.edit');
+    Route::put('/struktur/pimpinan/{id}/edit', [DashboardController::class, 'updatePimpinan'])->name('pimpinan.update');
+    Route::delete('/struktur/pimpinan/{id}', [DashboardController::class, 'destroyPimpinan'])->name('pimpinan.destroy');
+
+    Route::get('/anggota/tambah', [DashboardController::class, 'createAnggota'])->name('admin.anggota.create');
+    Route::post('/anggota/tambah', [DashboardController::class, 'storeAnggota'])->name('admin.anggota.store');
+    Route::get('/anggota/edit/{id}', [DashboardController::class, 'editAnggota'])->name('admin.anggota.edit');
+    Route::put('/anggota/edit/{id}', [DashboardController::class, 'updateAnggota'])->name('admin.anggota.update');
+    Route::delete('/anggota/hapus/{id}', [DashboardController::class, 'destroyAnggota'])->name('admin.anggota.destroy');
 });
     
 

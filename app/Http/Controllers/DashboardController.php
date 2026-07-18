@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Proker;
 use App\Models\Foto;
 use App\Models\BaganStruktur;
+use App\Models\Pimpinan;
+use App\Models\Anggota;
 
 class DashboardController extends Controller
 {
@@ -262,7 +264,9 @@ public function storeFoto(Request $request)
 {
     // Mengambil bagan struktur pertama yang ada di database
     $bagan = BaganStruktur::first();
-    return view('struktur', compact('bagan'));
+    $pimpinans = Pimpinan::all();
+    $anggotas = Anggota::all();
+    return view('struktur', compact('bagan', 'pimpinans', 'anggotas'));
 }
 
 // 2. Menampilkan Form Tambah / Upload Bagan
@@ -335,4 +339,143 @@ public function destroyBagan($id)
 
     return redirect()->route('struktur')->with('success', 'Bagan struktur organisasi berhasil dihapus!');
 }
+
+public function createPimpinan()
+    {
+        return view('pimpinan-tambah');
+    }
+
+public function storePimpinan(Request $request)
+    {
+        $request->validate([
+            'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'jabatan' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
+            'jurusan_angkatan' => 'required|string|max:255',
+        ]);
+
+        $fotoPath = $request->file('foto')->store('pimpinan', 'public');
+
+        // Simpan ke tabel pimpinans
+        Pimpinan::create([
+            'foto' => $fotoPath,
+            'jabatan' => $request->jabatan,
+            'nama' => $request->nama,
+            'jurusan_angkatan' => $request->jurusan_angkatan,
+        ]);
+
+        return redirect()->route('struktur')->with('success', 'Data pimpinan berhasil ditambahkan.');
+    }
+
+    public function editPimpinan($id)
+    {
+        $pimpinan = Pimpinan::findOrFail($id);
+        return view('pimpinan-edit', compact('pimpinan'));
+    }
+
+    public function updatePimpinan(Request $request, $id)
+    {
+        $pimpinan = Pimpinan::findOrFail($id);
+
+        $request->validate([
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'jabatan' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
+            'jurusan_angkatan' => 'required|string|max:255',
+        ]);
+
+        if ($request->hasFile('foto')) {
+            if ($pimpinan->foto) {
+                Storage::disk('public')->delete($pimpinan->foto);
+            }
+            $pimpinan->foto = $request->file('foto')->store('pimpinan', 'public');
+        }
+
+        $pimpinan->jabatan = $request->jabatan;
+        $pimpinan->nama = $request->nama;
+        $pimpinan->jurusan_angkatan = $request->jurusan_angkatan;
+        $pimpinan->save();
+
+        return redirect()->route('struktur')->with('success', 'Data pimpinan berhasil diperbarui.');
+    }
+
+    public function destroyPimpinan($id)
+    {
+        $pimpinan = Pimpinan::findOrFail($id);
+        
+        if ($pimpinan->foto) {
+            Storage::disk('public')->delete($pimpinan->foto);
+        }
+        
+        $pimpinan->delete();
+
+        return redirect()->route('struktur')->with('success', 'Data pimpinan berhasil dihapus.');
+    }
+
+    public function createAnggota()
+    {
+        return view('anggota-tambah');
+    }
+
+    public function storeAnggota(Request $request)
+    {
+        $request->validate([
+            'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'nama' => 'required|string|max:255',
+            'prodi_angkatan' => 'required|string|max:255',
+        ]);
+
+        $fotoPath = $request->file('foto')->store('anggota', 'public');
+
+        // Simpan ke tabel anggotas
+        Anggota::create([
+            'foto' => $fotoPath,
+            'nama' => $request->nama,
+            'prodi_angkatan' => $request->prodi_angkatan,
+        ]);
+
+        return redirect()->route('struktur')->with('success', 'Data anggota berhasil ditambahkan.');
+    }
+
+    public function editAnggota($id)
+    {
+        $anggota = Anggota::findOrFail($id);
+        return view('anggota-edit', compact('anggota'));
+    }
+    
+    public function updateAnggota(Request $request, $id)
+    {
+        $anggota = Anggota::findOrFail($id);
+        $request->validate([
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'nama' => 'required|string|max:255',
+            'prodi_angkatan' => 'required|string|max:255',
+        ]);
+
+        if ($request->hasFile('foto')) {
+        if ($anggota->foto) {
+            Storage::disk('public')->delete($anggota->foto);
+        }
+        $anggota->foto = $request->file('foto')->store('anggota', 'public');
+    }
+
+    $anggota->nama = $request->nama;
+    $anggota->prodi_angkatan = $request->prodi_angkatan;
+    $anggota->save();
+
+    return redirect()->route('struktur')->with('success', 'Data anggota berhasil diperbarui.');
+    }
+
+    public function destroyAnggota($id)
+    {
+        $anggota = Anggota::findOrFail($id);
+        
+        if ($anggota->foto) {
+            Storage::disk('public')->delete($anggota->foto);
+        }
+        
+        $anggota->delete();
+
+        return redirect()->route('struktur')->with('success', 'Data anggota berhasil dihapus.');
+    }
 }
