@@ -18,19 +18,12 @@ Route::get('/', function () {
 
 Route::get('/beranda', [DashboardController::class, 'index'])->name('beranda');
 
-Route::get('/profil', function () {
-    return view('profil');
-})->name('profil');
+Route::get('/profil', [DashboardController::class, 'profilIndex'])->name('profil');
 
 Route::get('/struktur', [DashboardController::class, 'indexStruktur'])->name('struktur');
 
-Route::get('/renungan', function () {
-    return view('renungan');
-})->name('renungan');
-
-Route::get('/detail-renungan', function () {
-    return view('detail-renungan');
-})->name('detail-renungan');
+Route::get('/renungan', [DashboardController::class, 'renunganIndex'])->name('renungan');
+Route::get('/detail-renungan/{id}', [DashboardController::class, 'renunganShow'])->name('detail-renungan');
 
 Route::get('/galeri', function () {
     return view('galeri');
@@ -104,7 +97,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/anggota/edit/{id}', [DashboardController::class, 'editAnggota'])->name('admin.anggota.edit');
     Route::put('/anggota/edit/{id}', [DashboardController::class, 'updateAnggota'])->name('admin.anggota.update');
     Route::delete('/anggota/hapus/{id}', [DashboardController::class, 'destroyAnggota'])->name('admin.anggota.destroy');
-});
+
+    Route::get('/renungan/tambah', [DashboardController::class, 'renunganCreate'])->name('admin.renungan.create');
+    Route::post('/renungan/tambah', [DashboardController::class, 'renunganStore'])->name('admin.renungan.store');
+    Route::get('/renungan/edit/{id}', [DashboardController::class, 'renunganEdit'])->name('admin.renungan.edit');
+    Route::put('/renungan/edit/{id}', [DashboardController::class, 'renunganUpdate'])->name('admin.renungan.update');
+    Route::delete('/renungan/hapus/{id}', [DashboardController::class, 'renunganDestroy'])->name('admin.renungan.destroy');
+    });
     
 
 Route::get('/login', function () {

@@ -11,6 +11,7 @@ use App\Models\Foto;
 use App\Models\BaganStruktur;
 use App\Models\Pimpinan;
 use App\Models\Anggota;
+use App\Models\Renungan;
 
 class DashboardController extends Controller
 {
@@ -478,4 +479,92 @@ public function storePimpinan(Request $request)
 
         return redirect()->route('struktur')->with('success', 'Data anggota berhasil dihapus.');
     }
+
+    public function renunganIndex(){
+        $allRenungan = Renungan::latest()->get();
+        return view('renungan', compact('allRenungan'));
+    }
+
+    public function renunganShow($id){
+        $renungan = Renungan::findOrFail($id);
+        return view('detail-renungan', compact('renungan'));
+    }
+
+    public function renunganCreate(){
+        return view('renungan-tambah');
+    }
+
+    public function renunganStore(Request $request){
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'ayat_alkitab' => 'nullable|string|max:255',
+            'isi' => 'required|string',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $pathFoto = null;
+        if ($request->hasFile('foto')) {
+            $pathFoto = $request->file('foto')->store('renungan', 'public');
+        }
+
+        Renungan::create([
+            'judul' => $request->judul,
+            'ayat_alkitab' => $request->ayat_alkitab,
+            'isi' => $request->isi,
+            'foto' => $pathFoto,
+        ]);
+
+        return redirect()->route('renungan')->with('success', 'Renungan berhasil ditambahkan!');
+    }
+
+    public function renunganEdit($id){
+        $renungan = Renungan::findOrFail($id);
+        return view('renungan-edit', compact('renungan'));
+    }
+
+    public function renunganUpdate(Request $request, $id){
+        $renungan = Renungan::findOrFail($id);
+
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'ayat_alkitab' => 'nullable|string|max:255',
+            'isi' => 'required|string',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $pathFoto = $renungan->foto;
+        if ($request->hasFile('foto')) {
+            if ($renungan->foto) {
+                Storage::disk('public')->delete($renungan->foto);
+            }
+            $pathFoto = $request->file('foto')->store('renungan', 'public');
+        }
+
+        $renungan->update([
+            'judul' => $request->judul,
+            'ayat_alkitab' => $request->ayat_alkitab,
+            'isi' => $request->isi,
+            'foto' => $pathFoto,
+        ]);
+
+        return redirect()->route('renungan')->with('success', 'Renungan berhasil diperbarui!');
+    }
+
+    public function renunganDestroy($id){
+        $renungan = Renungan::findOrFail($id);
+        if ($renungan->foto) {
+            Storage::disk('public')->delete($renungan->foto);
+        }
+        $renungan->delete();
+        return redirect()->route('renungan')->with('success', 'Renungan berhasil dihapus!');
+    }
+
+    public function profilIndex()
+{
+    $penjelasan = Penjelasan::first();
+    $prokers = Proker::all(); 
+
+    // Kirim data ke file profil.blade.php
+    return view('profil', compact('penjelasan', 'prokers'));
+}
 }
