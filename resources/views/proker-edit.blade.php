@@ -26,7 +26,7 @@
         </div>
 
         <div class="flex justify-end gap-2 pt-2">
-            <a href="{{ route('beranda') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold py-2.5 px-4 rounded-xl">Batal</a>
+            <a href="{{ route('profil') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold py-2.5 px-4 rounded-xl">Batal</a>
             <button type="submit" class="bg-[#F28E2B] hover:bg-orange-600 text-white text-xs font-bold py-2.5 px-5 rounded-xl shadow-md">KIRIM</button>
         </div>
     </form>

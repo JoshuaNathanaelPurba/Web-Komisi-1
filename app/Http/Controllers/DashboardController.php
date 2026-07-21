@@ -570,73 +570,77 @@ public function storePimpinan(Request $request)
 }
 public function galeri()
     {
-        $fotos = Foto::latest()->get();
-        return view('galeri', compact('fotos'));
+        $galeris = Galeri::all();
+        return view('galeri', compact('galeris'));
     }
 
-    // Tampilan Form Tambah Foto
-    public function createFoto()
+    public function galeriCreate()
     {
-        return view('foto-tambah');
-    }
-
-    public function createGaleri(){
         return view('galeri-tambah');
     }
 
-    public function storeGaleri(Request $request)
-    {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+public function galeriStore(Request $request)
+{
+    // Sesuaikan validasi menggunakan 'foto_komisi'
+    $request->validate([
+        'judul'       => 'required|string|max:255',
+        'foto_komisi' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        $pathFoto = null;
-        if ($request->hasFile('foto')) {
-            $pathFoto = $request->file('foto')->store('foto-komisi', 'public');
-        }
-
-        // Simpan menggunakan model Foto dan kolom path_foto
-        Foto::create([
-            'gambar'    => $request->judul,
-            'path_foto' => $pathFoto,
-        ]);
-
-        return redirect()->route('galeri')->with('success', 'Foto berhasil ditambahkan ke galeri!');
+    $pathFoto = null;
+    // Sesuaikan juga pengecekan file-nya
+    if ($request->hasFile('foto_komisi')) {
+        $pathFoto = $request->file('foto_komisi')->store('galeri', 'public');
     }
 
-    public function updateGaleri(Request $request, $id)
+    Galeri::create([
+        'judul'     => $request->judul,
+        'path_foto' => $pathFoto,
+    ]);
+
+    return redirect()->route('galeri')->with('success', 'Foto berhasil ditambahkan ke galeri!');
+}
+
+public function galeriEdit($id)
     {
-        $foto = Foto::findOrFail($id);
+        $galeri = Galeri::findOrFail($id);
+        return view('galeri-edit', compact('galeri'));
+    }
+
+    public function galeriUpdate(Request $request, $id)
+    {
+        // PERBAIKAN: Gunakan Galeri::findOrFail
+        $galeri = Galeri::findOrFail($id);
 
         $request->validate([
             'judul' => 'required|string|max:255',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto_komisi'  => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $pathFoto = $foto->path_foto;
-        if ($request->hasFile('foto')) {
-            if ($foto->path_foto) {
-                Storage::disk('public')->delete($foto->path_foto);
+        $pathFoto = $galeri->path_foto;
+        if ($request->hasFile('foto_komisi')) {
+            if ($galeri->path_foto) {
+                Storage::disk('public')->delete($galeri->path_foto);
             }
-            $pathFoto = $request->file('foto')->store('foto-komisi', 'public');
+            $pathFoto = $request->file('foto_komisi')->store('galeri', 'public');
         }
 
-        $foto->update([
-            'gambar'    => $request->judul,
+        $galeri->update([
+            'judul'     => $request->judul,
             'path_foto' => $pathFoto,
         ]);
 
         return redirect()->route('galeri')->with('success', 'Foto galeri berhasil diperbarui!');
     }
 
-    public function destroyGaleri($id)
+    public function galeriDestroy($id)
     {
-        $foto = Foto::findOrFail($id);
-        if ($foto->path_foto) {
-            Storage::disk('public')->delete($foto->path_foto);
+        // PERBAIKAN: Gunakan Galeri::findOrFail
+        $galeri = Galeri::findOrFail($id);
+        if ($galeri->path_foto) {
+            Storage::disk('public')->delete($galeri->path_foto);
         }
-        $foto->delete();
+        $galeri->delete();
         
         return redirect()->route('galeri')->with('success', 'Foto galeri berhasil dihapus!');
     }

@@ -2,10 +2,13 @@
 
 @section('content')
 <div class="w-full min-h-screen bg-white font-sans">
-    <!-- Hero Section (Tetap Dipertahankan Sesuai Aslinya) -->
+    <!-- Hero Section dengan Overlay Gelap Hitam/Abu -->
     <div class="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-start overflow-hidden">
-        <img src="{{ asset('images/foto-komisi.jpg') }}" class="absolute inset-0 w-full h-full object-cover" alt="Foto Komisi 1 Pembinaan">
-        <div class="absolute inset-0 bg-gradient-to-r from-blue-950/80 via-blue-900/60 to-transparent"></div>
+        <img src="{{ asset('images/DSC01740.jpg') }}" class="absolute inset-0 w-full h-full object-cover" alt="Foto Komisi 1 Pembinaan">
+        
+        <!-- 🟢 OVERLAY PERBAIKAN: Menggunakan gradasi Hitam / Abu-Abu Gelap -->
+        <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/30"></div>
+        
         <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 text-white w-full">
             <span class="text-sm md:text-base font-semibold tracking-wider text-yellow-400 uppercase">TENTANG KAMI</span>
             <h1 class="text-3xl md:text-5xl font-bold mt-2 tracking-tight">Komisi 1 Pembinaan</h1>
@@ -90,7 +93,7 @@
                             </div>
                         </div>
 
-                        <!-- Aksi Edit & Hapus khusus Admin ditaruh per item proker di bagian bawah kartu -->
+                        <!-- Aksi Edit & Hapus khusus Admin -->
                         @if(Auth::check() && Auth::user()->role === 'admin')
                             <div class="flex gap-2 border-t border-gray-100 pt-3 mt-4">
                                 <a href="{{ route('admin.proker.edit', $proker->id) }}" class="bg-yellow-500 text-white text-[10px] font-bold py-1 px-2.5 rounded shadow hover:bg-yellow-600 transition">
