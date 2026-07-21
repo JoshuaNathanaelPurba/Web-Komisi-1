@@ -10,32 +10,30 @@
 
     <div class="bg-white max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20 text-left">
 
+        {{-- SECTION PENJELASAN (Hanya Preview + Lihat Selengkapnya) --}}
         <section class="max-w-4xl">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
                     Komisi 1 Pembinaan
                 </h2>
-                @if(Auth::check() && Auth::user()->role === 'admin')
-                    <div class="flex gap-2">
-                        <a href="{{ route('admin.penjelasan.create') }}" class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</a>
-                        <a href="{{ route('admin.penjelasan.edit') }}" class="bg-yellow-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Edit</a>
-                        <form action="{{ route('admin.penjelasan.destroy') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus Penjelasan Komisi 1?')">
-                            @csrf 
-                            @method('DELETE')
-                            <button type="submit" class="bg-red-500 text-white text-xs font-bold py-1 px-2.5 rounded shadow">Hapus</button>
-                        </form>
-                    </div>
-                @endif
+                {{-- Tombol Tambah, Edit, Hapus di sini sudah dihapus --}}
             </div>
-            <p class="text-gray-600 text-base sm:text-lg leading-relaxed">
+            <p class="text-gray-600 text-base sm:text-lg leading-relaxed text-justify">
                 @if($penjelasan)
-                    {{ $penjelasan->konten }}
+                    {{-- Membatasi preview penjelasan hanya 250 karakter --}}
+                    {{ Str::limit($penjelasan->konten, 250, '...') }}
                 @else
-                    Belum ada penjelasan mengenai Komisi 1. Silakan tambahkan melalui menu admin.
+                    Belum ada penjelasan mengenai Komisi 1.
                 @endif
             </p>
+            <div class="mt-4">
+                <a href="{{ route('profil') }}" class="text-[#3B4197] hover:text-blue-900 font-bold text-sm inline-flex items-center gap-1 transition">
+                    Lihat Selengkapnya &rarr;
+                </a>
+            </div>
         </section>
 
+        {{-- SECTION SAMBUTAN PIMPINAN --}}
         <section class="space-y-8">
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
@@ -59,7 +57,7 @@
                     <div class="flex items-center gap-5">
                         <div class="w-24 h-24 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center text-gray-400 text-xs font-bold text-center p-2 border border-gray-200 overflow-hidden">
                             @if($sambutanKetua && $sambutanKetua->foto)
-                                <img src="{{ asset('storage/' . $sambutanKetua->foto) }}" alt="Foto Ketua class="w-full h-full object-cover rounded-xl">">
+                                <img src="{{ asset('storage/' . $sambutanKetua->foto) }}" alt="Foto Ketua" class="w-full h-full object-cover rounded-xl">
                             @else
                                 Foto Ketua
                             @endif
@@ -109,25 +107,19 @@
             </div>
         </section>
 
+        {{-- SECTION PROGRAM KERJA (Hanya Preview + Lihat Selengkapnya) --}}
         <section class="space-y-6">
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
                     Program Kerja
                 </h2>
-                {{-- Di atas judul cukup sisakan tombol "+ Tambah" saja karena belum memilih data tertentu --}}
-                @if(Auth::check() && Auth::user()->role === 'admin')
-                    <div class="flex gap-2">
-                        <a href="{{ route('admin.proker.create') }}" class="bg-blue-600 text-white text-xs font-bold py-1 px-2.5 rounded shadow">+ Tambah</a>
-                    </div>
-                @endif
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                @forelse($prokers as $proker)
+                {{-- Mengambil maksimal 3 proker saja untuk preview di beranda --}}
+                @forelse($prokers->take(3) as $proker)
                     <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 group flex flex-col justify-between">
                         <div>
-                            {{-- Menampilkan Gambar Proker Secara Dinamis --}}
                             <div class="h-48 bg-gray-100 flex items-center justify-center border-b border-gray-200 overflow-hidden">
                                 @if($proker->foto_proker)
                                     <img src="{{ asset('storage/' . $proker->foto_proker) }}" alt="{{ $proker->nama_proker }}" class="w-full h-full object-cover">
@@ -137,46 +129,35 @@
                             </div>
                             
                             <div class="p-5">
-                                {{-- Menampilkan Nama Proker --}}
                                 <h4 class="font-bold text-gray-900 group-hover:text-pmkBlue transition mb-2 text-lg">
                                     {{ $proker->nama_proker }}
                                 </h4>
-                                {{-- Menampilkan Penjelasan Proker --}}
-                                <p class="text-sm text-gray-600 leading-relaxed">
-                                    {{ $proker->penjelasan_proker }}
+                                <p class="text-sm text-gray-600 leading-relaxed text-justify">
+                                    {{-- Membatasi preview penjelasan proker hanya 100 karakter --}}
+                                    {{ Str::limit($proker->penjelasan_proker, 100, '...') }}
                                 </p>
                             </div>
                         </div>
-
-                        {{-- PINDAHKAN TOMBOL EDIT & HAPUS KE SINI (DENGAN MENAMBAHKAN PARAMETER ID) --}}
-                        @if(Auth::check() && Auth::user()->role === 'admin')
-                            <div class="px-5 pb-5 pt-2 flex justify-end gap-2 border-t border-gray-50 bg-gray-50/50">
-                                {{-- Tombol Edit dengan Parameter ID --}}
-                                <a href="{{ route('admin.proker.edit', $proker->id) }}" class="bg-yellow-500 text-white text-xs font-bold py-1.5 px-3 rounded-lg shadow hover:bg-yellow-600 transition">
-                                    Edit
-                                </a>
-
-                                {{-- Form Hapus dengan Parameter ID --}}
-                                <form action="{{ route('admin.proker.destroy', $proker->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus Program Kerja ini?')">
-                                    @csrf 
-                                    @method('DELETE')
-                                    <button type="submit" class="bg-red-500 text-white text-xs font-bold py-1.5 px-3 rounded-lg shadow hover:bg-red-600 transition">
-                                        Hapus
-                                    </button>
-                                </form>
-                            </div>
-                        @endif
+                        {{-- Tombol Aksi Edit & Hapus di sini sudah dihapus --}}
                     </div>
                 @empty
                     <div class="col-span-full bg-gray-50 border border-dashed border-gray-300 rounded-xl p-8 text-center text-gray-500">
-                        Belum ada program kerja yang ditambahkan. Silakan klik tombol "+ Tambah" di atas untuk menambahkan.
+                        Belum ada program kerja yang ditambahkan.
                     </div>
                 @endforelse
-
             </div>
+
+            @if(!$prokers->isEmpty())
+                <div class="text-center pt-4">
+                    <a href="{{ route('profil') }}" class="inline-block bg-[#3B4197] hover:bg-blue-900 text-white text-xs font-bold py-2.5 px-6 rounded-xl shadow-md transition">
+                        Lihat Proker Selengkapnya
+                    </a>
+                </div>
+            @endif
         </section>
 
-<section class="space-y-4">
+        {{-- SECTION FOTO KOMISI 1 --}}
+        <section class="space-y-4">
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
                     Foto Komisi 1
@@ -190,12 +171,12 @@
             
             <div class="grid grid-cols-1 gap-8">
                 @forelse($fotos ?? [] as $foto)
+                {{-- Diperbaiki dari format error bawaan text ke sintaks loops asli --}}
+                @foreach($fotos ?? [] as $foto)
                     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex flex-col justify-between">
-                        
                         <div class="w-full h-auto bg-gray-50 rounded-xl overflow-hidden border border-gray-200 mb-3">
                             <img src="{{ asset('storage/' . $foto->path_foto) }}" alt="{{ $foto->judul }}" class="w-full h-auto object-contain mx-auto">
                         </div>
-                        
                         <h4 class="text-base font-bold text-gray-800 mb-2 px-1">{{ $foto->judul }}</h4>
                         
                         @if(Auth::check() && Auth::user()->role === 'admin')
@@ -209,6 +190,7 @@
                             </div>
                         @endif
                     </div>
+                @endforeach
                 @empty
                     <div class="col-span-full w-full h-64 bg-gray-100 rounded-2xl border border-gray-200 flex items-center justify-center text-gray-400 font-bold text-sm">
                         Belum ada foto komisi yang ditambahkan.

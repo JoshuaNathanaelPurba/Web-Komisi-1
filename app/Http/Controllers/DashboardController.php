@@ -12,6 +12,7 @@ use App\Models\BaganStruktur;
 use App\Models\Pimpinan;
 use App\Models\Anggota;
 use App\Models\Renungan;
+use App\Models\Galeri;
 
 class DashboardController extends Controller
 {
@@ -38,7 +39,7 @@ class DashboardController extends Controller
             'konten' => $request->konten
         ]);
 
-        return redirect()->route('beranda')->with('success', 'Penjelasan berhasil disimpan!');
+        return redirect()->route('profil')->with('success', 'Penjelasan berhasil disimpan!');
     }
 
     public function updatePenjelasan(Request $request)
@@ -58,7 +59,7 @@ class DashboardController extends Controller
             ]);
         }
 
-        return redirect()->route('beranda')->with('success', 'Penjelasan berhasil diperbarui!');
+        return redirect()->route('profil')->with('success', 'Penjelasan berhasil diperbarui!');
     }
 
     public function storeSambutan(Request $request)
@@ -150,7 +151,7 @@ class DashboardController extends Controller
 
         Proker::create($data);
 
-        return redirect()->route('beranda')->with('success', 'Program Kerja baru berhasil ditambahkan!');
+        return redirect()->route('profil')->with('success', 'Program Kerja baru berhasil ditambahkan!');
     }
 
     public function editProker($id)
@@ -180,7 +181,7 @@ class DashboardController extends Controller
 
         $proker->update($data);
 
-        return redirect()->route('beranda')->with('success', 'Program Kerja berhasil diperbarui!');
+        return redirect()->route('profil')->with('success', 'Program Kerja berhasil diperbarui!');
     }
     
     public function destroyProker($id)
@@ -193,7 +194,7 @@ class DashboardController extends Controller
 
         $proker->delete();
 
-        return redirect()->route('beranda')->with('success', 'Program Kerja berhasil dihapus!');
+        return redirect()->route('profil')->with('success', 'Program Kerja berhasil dihapus!');
     }
 
 public function storeFoto(Request $request)
@@ -567,4 +568,76 @@ public function storePimpinan(Request $request)
     // Kirim data ke file profil.blade.php
     return view('profil', compact('penjelasan', 'prokers'));
 }
+public function galeri()
+    {
+        $fotos = Foto::latest()->get();
+        return view('galeri', compact('fotos'));
+    }
+
+    // Tampilan Form Tambah Foto
+    public function createFoto()
+    {
+        return view('foto-tambah');
+    }
+
+    public function createGaleri(){
+        return view('galeri-tambah');
+    }
+
+    public function storeGaleri(Request $request)
+    {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $pathFoto = null;
+        if ($request->hasFile('foto')) {
+            $pathFoto = $request->file('foto')->store('foto-komisi', 'public');
+        }
+
+        // Simpan menggunakan model Foto dan kolom path_foto
+        Foto::create([
+            'gambar'    => $request->judul,
+            'path_foto' => $pathFoto,
+        ]);
+
+        return redirect()->route('galeri')->with('success', 'Foto berhasil ditambahkan ke galeri!');
+    }
+
+    public function updateGaleri(Request $request, $id)
+    {
+        $foto = Foto::findOrFail($id);
+
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $pathFoto = $foto->path_foto;
+        if ($request->hasFile('foto')) {
+            if ($foto->path_foto) {
+                Storage::disk('public')->delete($foto->path_foto);
+            }
+            $pathFoto = $request->file('foto')->store('foto-komisi', 'public');
+        }
+
+        $foto->update([
+            'gambar'    => $request->judul,
+            'path_foto' => $pathFoto,
+        ]);
+
+        return redirect()->route('galeri')->with('success', 'Foto galeri berhasil diperbarui!');
+    }
+
+    public function destroyGaleri($id)
+    {
+        $foto = Foto::findOrFail($id);
+        if ($foto->path_foto) {
+            Storage::disk('public')->delete($foto->path_foto);
+        }
+        $foto->delete();
+        
+        return redirect()->route('galeri')->with('success', 'Foto galeri berhasil dihapus!');
+    }
 }

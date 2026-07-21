@@ -25,9 +25,7 @@ Route::get('/struktur', [DashboardController::class, 'indexStruktur'])->name('st
 Route::get('/renungan', [DashboardController::class, 'renunganIndex'])->name('renungan');
 Route::get('/detail-renungan/{id}', [DashboardController::class, 'renunganShow'])->name('detail-renungan');
 
-Route::get('/galeri', function () {
-    return view('galeri');
-})->name('galeri');
+Route::get('/galeri', [DashboardController::class, 'galeri'])->name('galeri');
 
 
 Route::middleware(['auth'])->group(function () {
@@ -103,6 +101,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/renungan/edit/{id}', [DashboardController::class, 'renunganEdit'])->name('admin.renungan.edit');
     Route::put('/renungan/edit/{id}', [DashboardController::class, 'renunganUpdate'])->name('admin.renungan.update');
     Route::delete('/renungan/hapus/{id}', [DashboardController::class, 'renunganDestroy'])->name('admin.renungan.destroy');
+
+    Route::get('/galeri/tambah', [DashboardController::class, 'galeriCreate'])->name('admin.galeri.create');
+    Route::post('/galeri/tambah', [DashboardController::class, 'galeriStore'])->name('admin.galeri.store');
+    Route::get('/galeri/edit/{id}', [DashboardController::class, 'galeriEdit'])->name('admin.galeri.edit');
+    Route::put('/galeri/edit/{id}', [DashboardController::class, 'galeriUpdate'])->name('admin.galeri.update');
+    Route::delete('/galeri/hapus/{id}', [DashboardController::class, 'galeriDestroy'])->name('admin.galeri.destroy');
     });
     
 

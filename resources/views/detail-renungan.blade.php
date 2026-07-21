@@ -1,51 +1,51 @@
 @extends('public')
 
 @section('content')
-    <div class="bg-white max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-left space-y-8">
+<div class="max-w-3xl mx-auto px-4 py-12 text-left">
+    {{-- Tombol Kembali --}}
+    <a href="{{ route('renungan') }}" class="text-sm text-gray-500 hover:text-slate-900 font-medium inline-flex items-center gap-1 mb-6 transition">
+        &larr; Kembali ke Halaman Renungan
+    </a>
 
-        <div class="space-y-2">
-            <span class="text-xs font-bold uppercase tracking-widest text-pmkBlue block">Renungan</span>
-            <div class="text-xs text-gray-400 font-medium">
-                Kamis, 09 Juli 2026
+    @if($renungan)
+        <article class="space-y-6">
+            {{-- Judul Renungan --}}
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight leading-tight">
+                {{ $renungan->judul }}
+            </h1>
+
+            {{-- Info Tanggal --}}
+            <div class="text-xs sm:text-sm text-gray-400 font-medium border-b border-gray-100 pb-4">
+                Diterbitkan pada: <span class="text-gray-600">{{ $renungan->created_at->format('d F Y') }}</span>
             </div>
-        </div>
 
-        <div class="w-full aspect-video sm:h-[400px] bg-gray-100 rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
-            <img src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?q=80&w=1200&auto=format&fit=crop" 
-                 alt="Gambar Tema Renungan" class="w-full h-full object-cover">
-        </div>
-
-        <div class="space-y-2 border-b border-gray-100 pb-6 flex justify-between items-end">
-            <div>
-                <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                    Berakar di Dalam Kristus
-                </h1>
-                <p class="text-base font-bold text-pmkBlue italic mt-1">
-                    Kolose 2:6-7
-                </p>
-            </div>
-            @if(Auth::check() && Auth::user()->role === 'admin')
-                <div class="flex gap-2">
-                    <button class="bg-yellow-500 hover:bg-yellow-600 text-white text-xs font-bold py-2 px-4 rounded-xl shadow-sm">Edit</button>
-                    <button class="bg-red-500 hover:bg-red-600 text-white text-xs font-bold py-2 px-4 rounded-xl shadow-sm">Hapus</button>
+            {{-- Gambar Renungan --}}
+            @if($renungan->foto)
+                <div class="w-full h-auto max-h-[450px] bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-6">
+                    <img src="{{ asset('storage/' . $renungan->foto) }}" alt="{{ $renungan->judul }}" class="w-full h-full object-cover">
                 </div>
             @endif
-        </div>
 
-        <article class="prose max-w-none text-gray-700 text-base sm:text-lg leading-relaxed space-y-6">
-            <p>
-                "Hendaklah hidupmu tetap di dalam Dia. Hendaklah kamu berakar di dalam Dia dan dibangun di atas Dia, bertambah teguh dalam iman yang telah diajarkan kepadamu, dan hendaklah hatimu melimpah dengan syukur."
-            </p>
-            <p>
-                [Bagian ini berisi seluruh penjelasan ayat dan isi renungan secara lengkap.]
-            </p>
+            {{-- ================= BAGIAN AYAT ALKITAB ================= --}}
+            @if($renungan->ayat_alkitab)
+                <div class="bg-gray-50 border-l-4 border-[#3B4197] p-4 my-4 rounded-r-xl">
+                    <p class="font-bold text-slate-700 text-sm uppercase tracking-wider mb-1">Ayat Alkitab:</p>
+                    <p class="text-gray-700 italic text-base sm:text-lg">
+                        {{ $renungan->ayat_alkitab }}
+                    </p>
+                </div>
+            @endif
+
+            {{-- ================= BAGIAN ISI / PENJELASAN RENUNGAN ================= --}}
+            <div class="text-gray-700 text-base sm:text-lg leading-relaxed text-justify whitespace-pre-line pt-2">
+                {!! $renungan->isi !!}
+            </div>
+            
         </article>
-
-        <div class="pt-6 border-t border-gray-100 flex justify-start">
-            <a href="{{ route('renungan') }}" class="text-sm font-bold text-pmkBlue hover:text-pmkOrange transition flex items-center gap-2">
-                &larr; Kembali ke Daftar    
-            </a>
+    @else
+        <div class="text-center py-12 bg-gray-50 rounded-2xl border border-dashed border-gray-300 text-gray-400 italic">
+            Data renungan tidak ditemukan atau sudah dihapus.
         </div>
-
-    </div>
+    @endif
+</div>
 @endsection
