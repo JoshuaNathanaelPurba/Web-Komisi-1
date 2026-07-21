@@ -23,7 +23,6 @@ class DashboardController extends Controller
         $sambutanWakil = Sambutan::where('jabatan', 'Wakil Ketua Komisi 1')->first();
         
         $prokers = Proker::all(); 
-        // Mengambil semua data foto untuk disalurkan ke beranda
         $fotos = Foto::all(); 
 
         return view('beranda', compact('penjelasan', 'sambutanKetua', 'sambutanWakil', 'prokers', 'fotos'));
@@ -197,27 +196,22 @@ class DashboardController extends Controller
         return redirect()->route('profil')->with('success', 'Program Kerja berhasil dihapus!');
     }
 
-public function storeFoto(Request $request)
+    public function storeFoto(Request $request)
     {
-        // 1. Validasi input file foto_komisi yang dikirim dari form blade
         $request->validate([
             'foto_komisi' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $pathFoto = null;
-        // 2. Ambil file foto_komisi dan simpan ke folder storage
         if ($request->hasFile('foto_komisi')) {
             $pathFoto = $request->file('foto_komisi')->store('foto-komisi', 'public');
         }
 
-        // 3. Simpan data path_foto ke database SQLite
-        // PERBAIKAN: Ubah key 'judul' menjadi 'gambar' agar sesuai model & migration
         Foto::create([
             'gambar'    => 'Foto Komisi 1',
             'path_foto' => $pathFoto,
         ]);
 
-        // 4. Alihkan kembali ke halaman beranda setelah sukses menyimpan
         return redirect()->route('beranda')->with('success', 'Foto Komisi 1 berhasil ditambahkan!');
     }
 
@@ -263,91 +257,84 @@ public function storeFoto(Request $request)
     }
 
     public function indexStruktur()
-{
-    // Mengambil bagan struktur pertama yang ada di database
-    $bagan = BaganStruktur::first();
-    $pimpinans = Pimpinan::all();
-    $anggotas = Anggota::all();
-    return view('struktur', compact('bagan', 'pimpinans', 'anggotas'));
-}
-
-// 2. Menampilkan Form Tambah / Upload Bagan
-public function createBagan()
-{
-    return view('struktur-tambah');
-}
-
-// 3. Memproses Simpan Bagan
-public function storeBagan(Request $request)
-{
-    $request->validate([
-        'foto_bagan' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120', // Max 5MB
-    ]);
-
-    $pathFoto = null;
-    if ($request->hasFile('foto_bagan')) {
-        $pathFoto = $request->file('foto_bagan')->store('bagan-struktur', 'public');
+    {
+        $bagan = BaganStruktur::first();
+        $pimpinans = Pimpinan::all();
+        $anggotas = Anggota::all();
+        return view('struktur', compact('bagan', 'pimpinans', 'anggotas'));
     }
 
-    BaganStruktur::create([
-        'path_foto' => $pathFoto
-    ]);
+    public function createBagan()
+    {
+        return view('struktur-tambah');
+    }
 
-    return redirect()->route('struktur')->with('success', 'Bagan struktur organisasi berhasil diunggah!');
-}
+    public function storeBagan(Request $request)
+    {
+        $request->validate([
+            'foto_bagan' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+        ]);
 
-// 4. Menampilkan Form Edit Bagan
-public function editBagan($id)
-{
-    $bagan = BaganStruktur::findOrFail($id);
-    return view('struktur-edit', compact('bagan'));
-}
+        $pathFoto = null;
+        if ($request->hasFile('foto_bagan')) {
+            $pathFoto = $request->file('foto_bagan')->store('bagan-struktur', 'public');
+        }
 
-// 5. Memproses Update Bagan
-public function updateBagan(Request $request, $id)
-{
-    $bagan = BaganStruktur::findOrFail($id);
+        BaganStruktur::create([
+            'path_foto' => $pathFoto
+        ]);
 
-    $request->validate([
-        'foto_bagan' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
-    ]);
+        return redirect()->route('struktur')->with('success', 'Bagan struktur organisasi berhasil diunggah!');
+    }
 
-    $pathFoto = $bagan->path_foto;
-    if ($request->hasFile('foto_bagan')) {
-        // Hapus file bagan yang lama dari storage
+    public function editBagan($id)
+    {
+        $bagan = BaganStruktur::findOrFail($id);
+        return view('struktur-edit', compact('bagan'));
+    }
+
+    public function updateBagan(Request $request, $id)
+    {
+        $bagan = BaganStruktur::findOrFail($id);
+
+        $request->validate([
+            'foto_bagan' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+        ]);
+
+        $pathFoto = $bagan->path_foto;
+        if ($request->hasFile('foto_bagan')) {
+            if ($bagan->path_foto) {
+                Storage::disk('public')->delete($bagan->path_foto);
+            }
+            $pathFoto = $request->file('foto_bagan')->store('bagan-struktur', 'public');
+        }
+
+        $bagan->update([
+            'path_foto' => $pathFoto
+        ]);
+
+        return redirect()->route('struktur')->with('success', 'Bagan struktur organisasi berhasil diperbarui!');
+    }
+
+    public function destroyBagan($id)
+    {
+        $bagan = BaganStruktur::findOrFail($id);
+
         if ($bagan->path_foto) {
             Storage::disk('public')->delete($bagan->path_foto);
         }
-        $pathFoto = $request->file('foto_bagan')->store('bagan-struktur', 'public');
-    }
-
-    $bagan->update([
-        'path_foto' => $pathFoto
-    ]);
-
-    return redirect()->route('struktur')->with('success', 'Bagan struktur organisasi berhasil diperbarui!');
-}
-
-// 6. Memproses Hapus Bagan
-public function destroyBagan($id)
-{
-    $bagan = BaganStruktur::findOrFail($id);
-
-    if ($bagan->path_foto) {
-        Storage::disk('public')->delete($bagan->path_foto);
-    }
     
-    $bagan->delete();
+        $bagan->delete();
 
-    return redirect()->route('struktur')->with('success', 'Bagan struktur organisasi berhasil dihapus!');
-}
+        return redirect()->route('struktur')->with('success', 'Bagan struktur organisasi berhasil dihapus!');
+    }
 
-public function createPimpinan()
+    public function createPimpinan()
     {
         return view('pimpinan-tambah');
     }
 
-public function storePimpinan(Request $request)
+    public function storePimpinan(Request $request)
     {
         $request->validate([
             'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
@@ -358,7 +345,6 @@ public function storePimpinan(Request $request)
 
         $fotoPath = $request->file('foto')->store('pimpinan', 'public');
 
-        // Simpan ke tabel pimpinans
         Pimpinan::create([
             'foto' => $fotoPath,
             'jabatan' => $request->jabatan,
@@ -429,7 +415,6 @@ public function storePimpinan(Request $request)
 
         $fotoPath = $request->file('foto')->store('anggota', 'public');
 
-        // Simpan ke tabel anggotas
         Anggota::create([
             'foto' => $fotoPath,
             'nama' => $request->nama,
@@ -455,17 +440,17 @@ public function storePimpinan(Request $request)
         ]);
 
         if ($request->hasFile('foto')) {
-        if ($anggota->foto) {
-            Storage::disk('public')->delete($anggota->foto);
+            if ($anggota->foto) {
+                Storage::disk('public')->delete($anggota->foto);
+            }
+            $anggota->foto = $request->file('foto')->store('anggota', 'public');
         }
-        $anggota->foto = $request->file('foto')->store('anggota', 'public');
-    }
 
-    $anggota->nama = $request->nama;
-    $anggota->prodi_angkatan = $request->prodi_angkatan;
-    $anggota->save();
+        $anggota->nama = $request->nama;
+        $anggota->prodi_angkatan = $request->prodi_angkatan;
+        $anggota->save();
 
-    return redirect()->route('struktur')->with('success', 'Data anggota berhasil diperbarui.');
+        return redirect()->route('struktur')->with('success', 'Data anggota berhasil diperbarui.');
     }
 
     public function destroyAnggota($id)
@@ -561,14 +546,14 @@ public function storePimpinan(Request $request)
     }
 
     public function profilIndex()
-{
-    $penjelasan = Penjelasan::first();
-    $prokers = Proker::all(); 
+    {
+        $penjelasan = Penjelasan::first();
+        $prokers = Proker::all(); 
 
-    // Kirim data ke file profil.blade.php
-    return view('profil', compact('penjelasan', 'prokers'));
-}
-public function galeri()
+        return view('profil', compact('penjelasan', 'prokers'));
+    }
+    
+    public function galeri()
     {
         $galeris = Galeri::all();
         return view('galeri', compact('galeris'));
@@ -579,29 +564,27 @@ public function galeri()
         return view('galeri-tambah');
     }
 
-public function galeriStore(Request $request)
-{
-    // Sesuaikan validasi menggunakan 'foto_komisi'
-    $request->validate([
-        'judul'       => 'required|string|max:255',
-        'foto_komisi' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    public function galeriStore(Request $request)
+    {
+        $request->validate([
+            'judul'       => 'required|string|max:255',
+            'foto_komisi' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    $pathFoto = null;
-    // Sesuaikan juga pengecekan file-nya
-    if ($request->hasFile('foto_komisi')) {
-        $pathFoto = $request->file('foto_komisi')->store('galeri', 'public');
+        $pathFoto = null;
+        if ($request->hasFile('foto_komisi')) {
+            $pathFoto = $request->file('foto_komisi')->store('galeri', 'public');
+        }
+
+        Galeri::create([
+            'judul'     => $request->judul,
+            'path_foto' => $pathFoto,
+        ]);
+
+        return redirect()->route('galeri')->with('success', 'Foto berhasil ditambahkan ke galeri!');
     }
 
-    Galeri::create([
-        'judul'     => $request->judul,
-        'path_foto' => $pathFoto,
-    ]);
-
-    return redirect()->route('galeri')->with('success', 'Foto berhasil ditambahkan ke galeri!');
-}
-
-public function galeriEdit($id)
+    public function galeriEdit($id)
     {
         $galeri = Galeri::findOrFail($id);
         return view('galeri-edit', compact('galeri'));
@@ -609,7 +592,6 @@ public function galeriEdit($id)
 
     public function galeriUpdate(Request $request, $id)
     {
-        // PERBAIKAN: Gunakan Galeri::findOrFail
         $galeri = Galeri::findOrFail($id);
 
         $request->validate([
@@ -635,7 +617,6 @@ public function galeriEdit($id)
 
     public function galeriDestroy($id)
     {
-        // PERBAIKAN: Gunakan Galeri::findOrFail
         $galeri = Galeri::findOrFail($id);
         if ($galeri->path_foto) {
             Storage::disk('public')->delete($galeri->path_foto);

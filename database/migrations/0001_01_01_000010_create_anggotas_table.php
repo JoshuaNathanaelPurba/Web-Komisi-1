@@ -10,9 +10,9 @@ return new class extends Migration
     {
         Schema::create('anggotas', function (Blueprint $table) {
             $table->id();
-            $table->string('foto'); // Path foto anggota
+            $table->string('foto');
             $table->string('nama');
-            $table->string('prodi_angkatan'); // Program Studi / Angkatan
+            $table->string('prodi_angkatan');
             $table->timestamps();
         });
     }

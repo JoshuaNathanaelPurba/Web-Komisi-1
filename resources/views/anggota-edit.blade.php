@@ -13,7 +13,6 @@
             @csrf
             @method('PUT')
 
-            <!-- Preview & Ganti Foto -->
             <div class="space-y-2">
                 <label class="block text-sm font-semibold text-gray-700">Foto Anggota</label>
                 <div class="flex flex-col sm:flex-row items-center gap-4 p-4 bg-gray-50 rounded-xl border border-gray-200">
@@ -31,7 +30,6 @@
                 @enderror
             </div>
 
-            <!-- Form Isian Nama -->
             <div class="space-y-1">
                 <label for="nama" class="block text-sm font-semibold text-gray-700">Nama Lengkap</label>
                 <input type="text" id="nama" name="nama" value="{{ old('nama', $anggota->nama) }}" required 
@@ -41,7 +39,6 @@
                 @enderror
             </div>
 
-            <!-- Form Isian Program Studi/Angkatan -->
             <div class="space-y-1">
                 <label for="prodi_angkatan" class="block text-sm font-semibold text-gray-700">Program Studi / Angkatan</label>
                 <input type="text" id="prodi_angkatan" name="prodi_angkatan" value="{{ old('prodi_angkatan', $anggota->prodi_angkatan) }}" required 
@@ -51,7 +48,6 @@
                 @enderror
             </div>
 
-            <!-- Aksi Form -->
             <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
                 <a href="{{ route('struktur') }}" class="bg-gray-100 text-gray-700 text-xs font-bold py-2 px-4 rounded-xl hover:bg-gray-200 transition">Batal</a>
                 <button type="submit" class="bg-yellow-500 text-white text-xs font-bold py-2 px-4 rounded-xl shadow hover:bg-yellow-600 transition">Perbarui Data</button>

@@ -12,7 +12,6 @@
         <form action="{{ route('pimpinan.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
-            <!-- Form Input Foto (Standard Choose File) -->
             <div class="space-y-1">
                 <label for="foto" class="block text-sm font-semibold text-gray-700">Foto Pimpinan</label>
                 <input type="file" id="foto" name="foto" required accept="image/*"
@@ -29,7 +28,6 @@
                 @enderror
             </div>
 
-            <!-- Form Isian Jabatan -->
             <div class="space-y-1">
                 <label for="jabatan" class="block text-sm font-semibold text-gray-700">Jabatan</label>
                 <input type="text" id="jabatan" name="jabatan" value="{{ old('jabatan') }}" required placeholder="Contoh: Ketua Komisi 1" 
@@ -39,7 +37,6 @@
                 @enderror
             </div>
 
-            <!-- Form Isian Nama -->
             <div class="space-y-1">
                 <label for="nama" class="block text-sm font-semibold text-gray-700">Nama Lengkap</label>
                 <input type="text" id="nama" name="nama" value="{{ old('nama') }}" required placeholder="Masukkan nama lengkap pimpinan" 
@@ -49,7 +46,6 @@
                 @enderror
             </div>
 
-            <!-- Form Isian Jurusan/Angkatan -->
             <div class="space-y-1">
                 <label for="jurusan_angkatan" class="block text-sm font-semibold text-gray-700">Jurusan / Angkatan</label>
                 <input type="text" id="jurusan_angkatan" name="jurusan_angkatan" value="{{ old('jurusan_angkatan') }}" required placeholder="Contoh: Teknik Informatika / 2024" 
@@ -59,7 +55,6 @@
                 @enderror
             </div>
 
-            <!-- Aksi Form -->
             <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
                 <a href="{{ route('struktur') }}" class="bg-gray-100 text-gray-700 text-xs font-bold py-2 px-4 rounded-xl hover:bg-gray-200 transition">Batal</a>
                 <button type="submit" class="bg-blue-600 text-white text-xs font-bold py-2 px-4 rounded-xl shadow hover:bg-blue-700 transition">Simpan Pimpinan</button>

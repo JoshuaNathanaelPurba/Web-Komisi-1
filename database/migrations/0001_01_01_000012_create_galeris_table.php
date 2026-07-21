@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('galeris', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
-            $table->string('path_foto'); // Untuk menyimpan nama/path file gambar
+            $table->string('path_foto');
             $table->timestamps();
         });
     }

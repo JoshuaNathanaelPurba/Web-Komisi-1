@@ -13,7 +13,6 @@
             @csrf
             @method('PUT')
 
-            <!-- Form Input Foto dengan Preview Foto Lama -->
             <div class="space-y-2">
                 <label class="block text-sm font-semibold text-gray-700">Foto Pimpinan</label>
                 <div class="flex flex-col sm:flex-row items-center gap-4 p-4 bg-gray-50 rounded-xl border border-gray-200">
@@ -34,7 +33,6 @@
                 @enderror
             </div>
 
-            <!-- Form Isian Jabatan -->
             <div class="space-y-1">
                 <label for="jabatan" class="block text-sm font-semibold text-gray-700">Jabatan</label>
                 <input type="text" id="jabatan" name="jabatan" value="{{ old('jabatan', $pimpinan->jabatan) }}" required 
@@ -44,7 +42,6 @@
                 @enderror
             </div>
 
-            <!-- Form Isian Nama -->
             <div class="space-y-1">
                 <label for="nama" class="block text-sm font-semibold text-gray-700">Nama Lengkap</label>
                 <input type="text" id="nama" name="nama" value="{{ old('nama', $pimpinan->nama) }}" required 
@@ -54,7 +51,6 @@
                 @enderror
             </div>
 
-            <!-- Form Isian Jurusan/Angkatan -->
             <div class="space-y-1">
                 <label for="jurusan_angkatan" class="block text-sm font-semibold text-gray-700">Jurusan / Angkatan</label>
                 <input type="text" id="jurusan_angkatan" name="jurusan_angkatan" value="{{ old('jurusan_angkatan', $pimpinan->jurusan_angkatan) }}" required 
@@ -64,7 +60,6 @@
                 @enderror
             </div>
 
-            <!-- Aksi Form -->
             <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
                 <a href="{{ route('struktur') }}" class="bg-gray-100 text-gray-700 text-xs font-bold py-2 px-4 rounded-xl hover:bg-gray-200 transition">Batal</a>
                 <button type="submit" class="bg-yellow-500 text-white text-xs font-bold py-2 px-4 rounded-xl shadow hover:bg-yellow-600 transition">Perbarui Data</button>

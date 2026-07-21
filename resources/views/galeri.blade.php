@@ -12,7 +12,6 @@
                 <p class="text-xl md:text-2xl font-medium text-gray-300">PMK Daniel</p>
             </div>
 
-            {{-- 🟢 KOTAK GAMBAR ALBUM (MENYESUAIKAN UKURAN GAMBAR) --}}
             <div class="order-1 md:order-2 flex justify-center md:justify-end">
                 <div class="relative max-w-sm md:max-w-md rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 rotate-2 hover:rotate-0 transition duration-300">
                     <img src="{{ asset('images/album.png') }}" class="w-full h-auto block" alt="Gambar Album Komisi 1">
@@ -38,24 +37,20 @@
                 @endif
             </div>
 
-            {{-- Grid Data Foto / Galeri Dinamis dari Database --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 
                 @forelse($galeris as $galeri)
                     <div class="bg-white overflow-hidden group border border-transparent rounded-xl p-2 hover:border-gray-100 transition duration-200 flex flex-col justify-between">
                         <div>
-                            {{-- Frame Tampung Gambar --}}
                             <div class="w-full h-64 overflow-hidden rounded-xl bg-gray-100 shadow-sm relative">
                                 <img src="{{ asset('storage/' . $galeri->path_foto) }}" class="w-full h-full object-cover group-hover:scale-102 transition duration-300" alt="{{ $galeri->judul }}">
                             </div>
-                            
-                            {{-- Judul Foto --}}
+
                             <div class="pt-3 text-center space-y-2">
                                 <p class="text-sm font-bold text-slate-800">{{ $galeri->judul }}</p>
                             </div>
                         </div>
 
-                        {{-- Panel Kontrol Aksi Khusus Admin --}}
                         @if(Auth::check() && Auth::user()->role === 'admin')
                             <div class="flex justify-center gap-1.5 pt-3 border-t border-gray-50 mt-3">
                                 <a href="{{ route('admin.galeri.edit', $galeri->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white text-[11px] font-bold py-1 px-3 rounded-lg shadow-sm transition">

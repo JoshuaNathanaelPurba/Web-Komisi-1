@@ -12,7 +12,6 @@
         <form action="{{ route('admin.anggota.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
-            <!-- Form Input Foto (Standard Bawaan Browser) -->
             <div class="space-y-1">
                 <label for="foto" class="block text-sm font-semibold text-gray-700">Foto Anggota</label>
                 <input type="file" id="foto" name="foto" required accept="image/*"
@@ -23,7 +22,6 @@
                 @enderror
             </div>
 
-            <!-- Form Isian Nama -->
             <div class="space-y-1">
                 <label for="nama" class="block text-sm font-semibold text-gray-700">Nama Lengkap</label>
                 <input type="text" id="nama" name="nama" value="{{ old('nama') }}" required placeholder="Masukkan nama lengkap anggota" 
@@ -33,7 +31,6 @@
                 @enderror
             </div>
 
-            <!-- Form Isian Program Studi/Angkatan -->
             <div class="space-y-1">
                 <label for="prodi_angkatan" class="block text-sm font-semibold text-gray-700">Program Studi / Angkatan</label>
                 <input type="text" id="prodi_angkatan" name="prodi_angkatan" value="{{ old('prodi_angkatan') }}" required placeholder="Contoh: Sistem Informasi / 2024" 
@@ -43,7 +40,6 @@
                 @enderror
             </div>
 
-            <!-- Aksi Form -->
             <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
                 <a href="{{ route('struktur') }}" class="bg-gray-100 text-gray-700 text-xs font-bold py-2 px-4 rounded-xl hover:bg-gray-200 transition">Batal</a>
                 <button type="submit" class="bg-blue-600 text-white text-xs font-bold py-2 px-4 rounded-xl shadow hover:bg-blue-700 transition">Simpan Anggota</button>

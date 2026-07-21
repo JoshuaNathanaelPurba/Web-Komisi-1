@@ -39,21 +39,15 @@
                     </div>
                 </div>
                 
-                {{-- Navigasi Desktop --}}
                 <div class="hidden md:flex space-x-6 lg:space-x-8 text-sm font-semibold tracking-wide">
-                    {{-- Beranda --}}
                     <a href="{{ route('beranda') }}" class="hover:text-orange-400 transition duration-200 {{ Request::is('beranda') || Request::is('/') || Request::is('penjelasan*') || Request::is('sambutan*') || Request::is('foto-komisi*') ? 'text-orange-400 border-b-2 border-orange-400 pb-1' : '' }}">Beranda</a>
-                    
-                    {{-- Struktur --}}
+
                     <a href="{{ route('struktur') }}" class="hover:text-orange-400 transition duration-200 {{ Request::is('struktur*') || Request::is('anggota*') ? 'text-orange-400 border-b-2 border-orange-400 pb-1' : '' }}">Struktur</a>
-                    
-                    {{-- Renungan --}}
+
                     <a href="{{ route('renungan') }}" class="hover:text-orange-400 transition duration-200 {{ Request::is('renungan*') || Request::is('detail-renungan*') ? 'text-orange-400 border-b-2 border-orange-400 pb-1' : '' }}">Renungan</a>
-                    
-                    {{-- Tentang / Profil --}}
+
                     <a href="{{ route('profil') }}" class="hover:text-orange-400 transition duration-200 {{ Request::is('profil*') || Request::is('proker*') ? 'text-orange-400 border-b-2 border-orange-400 pb-1' : '' }}">Tentang</a>
-                    
-                    {{-- Galeri --}}
+
                     <a href="{{ route('galeri') }}" class="hover:text-orange-400 transition duration-200 {{ Request::is('galeri*') ? 'text-orange-400 border-b-2 border-orange-400 pb-1' : '' }}">Galeri</a>
                 </div>
 
@@ -84,7 +78,6 @@
             </div>
         </div>
 
-        {{-- Navigasi Mobile --}}
         <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-[#3B4197] z-40 w-full h-screen flex flex-col justify-between px-8 pt-28 pb-16 overflow-y-auto">
             
             <div class="flex flex-col space-y-6 text-center text-xl font-semibold">

@@ -4,26 +4,22 @@
 <div class="bg-slate-50 min-h-screen py-12">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <!-- Tombol Kembali -->
         <div class="mb-6">
             <a href="{{ route('struktur') }}" class="text-sm font-semibold text-blue-600 hover:underline flex items-center gap-1">
                 &larr; Kembali ke Struktur Organisasi
             </a>
         </div>
 
-        <!-- Card Form -->
         <div class="bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 p-6 sm:p-10 text-left">
             <div class="border-b pb-4 mb-6">
                 <h2 class="text-2xl font-black text-slate-800">Perbarui Bagan Struktur</h2>
                 <p class="text-slate-500 text-sm mt-1">Unggah file gambar bagan struktur organisasi baru untuk menggantikan yang lama.</p>
             </div>
 
-            <!-- Form Menggunakan Method PUT -->
             <form action="{{ route('admin.bagan.update', $bagan->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 @method('PUT')
 
-                <!-- Tampilan Bagan Saat Ini jika ada -->
                 @if($bagan->path_foto)
                     <div class="space-y-2" id="current-bagan-container">
                         <label class="text-sm font-bold text-slate-700 block">Bagan Struktur Saat Ini:</label>
@@ -33,7 +29,6 @@
                     </div>
                 @endif
 
-                <!-- Input File Upload Gambar Baru -->
                 <div class="space-y-2">
                     <label for="foto_bagan" class="text-sm font-bold text-slate-700 block">Unggah Gambar Bagan Baru <span class="text-red-500">*</span></label>
                     <div class="flex items-center justify-center w-full">
@@ -49,7 +44,6 @@
                         </label>
                     </div>
 
-                    <!-- Wadah Preview Gambar Baru -->
                     <div id="preview-container" class="hidden mt-4">
                         <p class="text-xs text-slate-400 mb-1">Pratinjau Gambar Baru:</p>
                         <div class="border border-slate-200 rounded-lg p-2 bg-slate-50 max-h-60 overflow-hidden flex items-center justify-center">
@@ -61,7 +55,6 @@
                     @enderror
                 </div>
 
-                <!-- Tombol Submit / Aksi -->
                 <div class="flex justify-end gap-3 border-t pt-6 mt-6">
                     <a href="{{ route('struktur') }}" class="px-5 py-2 rounded-lg text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">
                         Batal

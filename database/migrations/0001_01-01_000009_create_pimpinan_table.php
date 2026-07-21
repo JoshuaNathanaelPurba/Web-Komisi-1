@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('pimpinans', function (Blueprint $table) {
             $table->id();
-            $table->string('foto'); // Foto profil pimpinan
+            $table->string('foto');
             $table->string('jabatan');
             $table->string('nama');
             $table->string('jurusan_angkatan');

@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('fotos', function (Blueprint $table) {
             $table->id();
-            $table->string('gambar');     // Untuk judul/keterangan foto
-            $table->string('path_foto'); // Untuk menyimpan path lokasi file foto komisi
+            $table->string('gambar');
+            $table->string('path_foto');
             $table->timestamps();
         });
     }

@@ -15,13 +15,11 @@
 
         <div class="flex flex-col space-y-1.5">
             <label class="text-sm font-bold text-slate-700 uppercase tracking-wider">Form Nama Program Kerja</label>
-            {{-- UBAH VALUE MENJADI DINAMIS --}}
             <input type="text" name="nama_proker" value="{{ old('nama_proker', $proker->nama_proker) }}" required class="w-full text-sm border-gray-300 rounded-xl focus:ring-pmkBlue focus:border-pmkBlue px-4 py-2.5">
         </div>
 
         <div class="flex flex-col space-y-1.5">
             <label class="text-sm font-bold text-slate-700 uppercase tracking-wider">Form Penjelasan Program Kerja</label>
-            {{-- UBAH ISI TEXTAREA MENJADI DINAMIS --}}
             <textarea name="penjelasan_proker" rows="5" required class="w-full text-sm border-gray-300 rounded-xl focus:ring-pmkBlue focus:border-pmkBlue px-4 py-2.5">{{ old('penjelasan_proker', $proker->penjelasan_proker) }}</textarea>
         </div>
 

@@ -15,7 +15,6 @@ return new class extends Migration
         });
     }
 
-    // PERBAIKAN 1: Menambahkan fungsi down untuk kebutuhan rollback
     public function down(): void
     {
         Schema::dropIfExists('bagan_strukturs');

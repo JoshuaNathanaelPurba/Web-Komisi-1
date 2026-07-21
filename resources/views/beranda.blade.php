@@ -10,17 +10,14 @@
 
     <div class="bg-white max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-20 text-left">
 
-        {{-- SECTION PENJELASAN (Hanya Preview + Lihat Selengkapnya) --}}
         <section class="max-w-4xl">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
                     Komisi 1 Pembinaan
                 </h2>
-                {{-- Tombol Tambah, Edit, Hapus di sini sudah dihapus --}}
             </div>
             <p class="text-gray-600 text-base sm:text-lg leading-relaxed text-justify">
                 @if($penjelasan)
-                    {{-- Membatasi preview penjelasan hanya 250 karakter --}}
                     {{ Str::limit($penjelasan->konten, 250, '...') }}
                 @else
                     Belum ada penjelasan mengenai Komisi 1.
@@ -33,7 +30,6 @@
             </div>
         </section>
 
-        {{-- SECTION SAMBUTAN PIMPINAN --}}
         <section class="space-y-8">
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
@@ -107,7 +103,6 @@
             </div>
         </section>
 
-        {{-- SECTION PROGRAM KERJA (Hanya Preview + Lihat Selengkapnya) --}}
         <section class="space-y-6">
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
@@ -116,7 +111,6 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {{-- Mengambil maksimal 3 proker saja untuk preview di beranda --}}
                 @forelse($prokers->take(3) as $proker)
                     <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 group flex flex-col justify-between">
                         <div>
@@ -133,12 +127,10 @@
                                     {{ $proker->nama_proker }}
                                 </h4>
                                 <p class="text-sm text-gray-600 leading-relaxed text-justify">
-                                    {{-- Membatasi preview penjelasan proker hanya 100 karakter --}}
                                     {{ Str::limit($proker->penjelasan_proker, 100, '...') }}
                                 </p>
                             </div>
                         </div>
-                        {{-- Tombol Aksi Edit & Hapus di sini sudah dihapus --}}
                     </div>
                 @empty
                     <div class="col-span-full bg-gray-50 border border-dashed border-gray-300 rounded-xl p-8 text-center text-gray-500">
@@ -156,7 +148,6 @@
             @endif
         </section>
 
-        {{-- SECTION FOTO KOMISI 1 --}}
         <section class="space-y-4">
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
@@ -171,7 +162,6 @@
             
             <div class="grid grid-cols-1 gap-8">
                 @forelse($fotos ?? [] as $foto)
-                {{-- Diperbaiki dari format error bawaan text ke sintaks loops asli --}}
                 @foreach($fotos ?? [] as $foto)
                     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex flex-col justify-between">
                         <div class="w-full h-auto bg-gray-50 rounded-xl overflow-hidden border border-gray-200 mb-3">

@@ -3,7 +3,6 @@
 @section('content')
 <div class="bg-white max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16 text-left">
     
-    {{-- SECTION BAGAN STRUKTUR --}}
     <section class="space-y-6">
         <div class="flex justify-between items-center border-b border-gray-100 pb-4">
             <div class="space-y-1">
@@ -50,7 +49,6 @@
         </div>
     </section> 
 
-    {{-- SECTION PIMPINAN --}}
     <section class="space-y-6">
         <div class="w-full flex justify-between items-center">
             <h2 class="text-2xl font-bold text-slate-900">Pimpinan Komisi 1</h2>
@@ -93,7 +91,6 @@
         </div>
     </section>
 
-    {{-- SECTION ANGGOTA --}}
     <section class="space-y-6">
         <div class="w-full flex justify-between items-center">
             <h2 class="text-2xl font-bold text-slate-900">Anggota Komisi 1</h2>

@@ -4,25 +4,21 @@
 <div class="bg-slate-50 min-h-screen py-12">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <!-- Breadcrumb / Tombol Kembali -->
         <div class="mb-6">
             <a href="{{ route('renungan') }}" class="text-sm font-semibold text-blue-600 hover:underline flex items-center gap-1">
                 &larr; Kembali ke Daftar Renungan
             </a>
         </div>
 
-        <!-- Card Form -->
         <div class="bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 p-6 sm:p-10 text-left">
             <div class="border-b pb-4 mb-6">
                 <h2 class="text-2xl font-black text-slate-800">Tambah Renungan Baru</h2>
                 <p class="text-slate-500 text-sm mt-1">Tuliskan renungan firman Tuhan hari ini untuk jemaat PMK Daniel.</p>
             </div>
 
-            <!-- Form Mulai -->
             <form action="{{ route('admin.renungan.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
 
-                <!-- Input Judul -->
                 <div class="space-y-1">
                     <label for="judul" class="text-sm font-bold text-slate-700 block">Judul Renungan <span class="text-red-500">*</span></label>
                     <input type="text" name="judul" id="judul" value="{{ old('judul') }}" required
@@ -33,7 +29,6 @@
                     @enderror
                 </div>
 
-                <!-- Input Ayat Alkitab -->
                 <div class="space-y-1">
                     <label for="ayat_alkitab" class="text-sm font-bold text-slate-700 block">Ayat Alkitab <span class="text-slate-400 font-normal">(Opsional)</span></label>
                     <input type="text" name="ayat_alkitab" id="ayat_alkitab" value="{{ old('ayat_alkitab') }}"
@@ -41,7 +36,6 @@
                         placeholder="Contoh: Matius 5:13-16">
                 </div>
 
-                <!-- Input Isi Renungan -->
                 <div class="space-y-1">
                     <label for="isi" class="text-sm font-bold text-slate-700 block">Isi Renungan <span class="text-red-500">*</span></label>
                     <textarea name="isi" id="isi" rows="8" required
@@ -52,7 +46,6 @@
                     @enderror
                 </div>
 
-                <!-- Input Foto/Gambar -->
                 <div class="space-y-2">
                     <label for="foto" class="text-sm font-bold text-slate-700 block">Foto Utama <span class="text-slate-400 font-normal">(Opsional, Maks 2MB)</span></label>
                     <div class="flex items-center justify-center w-full">
@@ -67,7 +60,7 @@
                             <input id="foto" name="foto" type="file" class="hidden" accept="image/*" onchange="previewImage(event)" />
                         </label>
                     </div>
-                    <!-- Wadah Preview Gambar -->
+
                     <div id="preview-container" class="hidden mt-3">
                         <p class="text-xs text-slate-400 mb-1">Preview Gambar Terpilih:</p>
                         <img id="image-preview" class="h-40 w-full object-cover rounded-lg border border-slate-200 shadow-sm">
@@ -77,7 +70,6 @@
                     @enderror
                 </div>
 
-                <!-- Tombol Submit -->
                 <div class="flex justify-end gap-3 border-t pt-6 mt-6">
                     <a href="{{ route('renungan') }}" class="px-5 py-2 rounded-lg text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">
                         Batal
@@ -92,7 +84,7 @@
     </div>
 </div>
 
-<!-- Script Javascript untuk Live Preview Gambar Bawaan -->
+
 <script>
     function previewImage(event) {
         const reader = new FileReader();

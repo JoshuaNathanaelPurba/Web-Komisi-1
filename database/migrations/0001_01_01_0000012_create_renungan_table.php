@@ -12,7 +12,7 @@ return new class extends Migration
             $table->string('judul');
             $table->string('ayat_alkitab')->nullable();
             $table->text('isi');
-            $table->string('foto')->nullable(); // Menyimpan path gambar renungan
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }
