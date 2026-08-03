@@ -24,7 +24,7 @@
         
         <div class="bg-[#3B4197] text-white flex flex-col items-center justify-center p-8 md:p-12 space-y-4">
             <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-[#3B4197] font-bold text-sm shadow-lg">
-                LOGO
+                <img src="{{ asset('images/Logo PMK Daniel.png') }}" alt="Logo PMK" style="max-width: 120px; height: auto;">
             </div>
             <div class="text-center">
                 <h2 class="text-2xl md:text-3xl font-bold tracking-wider">Komisi 1 Pembinaan</h2>
